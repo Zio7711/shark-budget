@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 
-const register = (req: Request, res: Response) => {
-  res.send("register user");
+import { StatusCodes } from "http-status-codes";
+import User from "../models/User";
+
+const register = async (req: Request, res: Response) => {
+  const user = await User.create(req.body);
+  res.status(StatusCodes.OK).json({ user });
 };
 
 const login = (req: Request, res: Response) => {

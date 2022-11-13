@@ -1,9 +1,12 @@
+import "express-async-errors";
+
 import express, { Express, Request, Response } from "express";
 
 import ErrorHandlerMiddleware from "./middleware/error-handler";
 import authRouter from "./routes/authRoutes";
 import connectDB from "./db/connect";
 import dotenv from "dotenv";
+import expenseRouter from "./routes/expenseRoutes";
 import notFoundMiddleware from "./middleware/not-found";
 
 dotenv.config();
@@ -20,6 +23,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/expense", expenseRouter);
 
 //middleware
 app.use(notFoundMiddleware);
