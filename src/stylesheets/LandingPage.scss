@@ -1,0 +1,21 @@
+@import "_variables";
+
+.landing-page-container {
+  background-color: $main;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.landing-page-title {
+  position: absolute;
+  font-size: 3em;
+  top: 3em;
+}
+
+svg {
+  margin-bottom: 2em;
+}

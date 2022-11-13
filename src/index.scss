@@ -1,0 +1,21 @@
+@import "./stylesheets/variables";
+@import url("https://fonts.googleapis.com/css2?family=Sono&display=swap");
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: $dark;
+  font-family: "Sono", sans-serif;
+}
+
+body {
+  background-color: $white;
+  max-height: 915px;
+  max-width: 480px;
+  height: 100vh;
+  width: 100vw;
+  margin: auto;
+}
