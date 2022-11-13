@@ -2,15 +2,15 @@ import "../stylesheets/RegisterPage.scss";
 
 import * as yup from "yup";
 
-import { FormEvent, FormEventHandler, useEffect, useState } from "react";
+import { FormikBag, FormikHandlers, FormikValues, useFormik } from "formik";
+import { useEffect, useState } from "react";
 
 import { Button } from "@mui/material";
 import { DollarLogo } from "../components/AllSVGs";
 import TextField from "@mui/material/TextField";
 import color from "../utils/color";
-import { useFormik } from "formik";
 
-const validationSchema = yup.object({
+const registerSchema = yup.object({
   name: yup.string().required("Name is required"),
   email: yup
     .string()
@@ -23,21 +23,36 @@ const validationSchema = yup.object({
   isMember: yup.bool(),
 });
 
+const loginSchema = yup.object({
+  email: yup
+    .string()
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string()
+    // .min(8, "Password should be of minimum 8 characters length")
+    .required("Password is required"),
+  isMember: yup.bool(),
+});
+
 const RegisterPage = () => {
+  const [isMember, setIsMember] = useState<Boolean>(true);
   const initialValues = {
     name: "",
     email: "",
     password: "",
-    isMember: true,
   };
 
-  const submitHandler = () => {
+  const submitHandler = (values: FormikValues, actions: any) => {
+    console.log(values, actions);
     console.log("submit");
   };
 
+  const validationSchema = isMember ? loginSchema : registerSchema;
+
   const formik = useFormik({
     initialValues,
-    validationSchema: validationSchema,
+    validationSchema,
     onSubmit: submitHandler,
   });
 
@@ -46,10 +61,10 @@ const RegisterPage = () => {
   return (
     <form onSubmit={formik.handleSubmit} className="register-page-container">
       <DollarLogo fill={color.main} width="100" />
-      <h3>{formik.values.isMember ? "Login" : "Register"}</h3>
+      <h3>{isMember ? "Login" : "Register"}</h3>
 
       {/* name input */}
-      {!formik.values.isMember && (
+      {!isMember && (
         <TextField
           id="name"
           label="name"
@@ -91,15 +106,18 @@ const RegisterPage = () => {
       </Button>
 
       <p>
-        {formik.values.isMember ? "Not a member yet?" : "Already a member?"}
+        {isMember ? "Not a member yet?" : "Already a member?"}
         <Button
           variant="text"
           size="small"
           onClick={() => {
-            formik.setFieldValue("isMember", !formik.values.isMember);
+            // update the member state
+            setIsMember(!isMember);
+            // clear the field
+            formik.resetForm();
           }}
         >
-          {formik.values.isMember ? "Register" : "Login"}
+          {isMember ? "Register" : "Login"}
         </Button>
       </p>
     </form>
