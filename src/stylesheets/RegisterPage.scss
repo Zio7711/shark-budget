@@ -1,0 +1,7 @@
+@import "_variables";
+
+.register-page-container {
+  height: 80vh;
+  @include container;
+  justify-content: space-around;
+}

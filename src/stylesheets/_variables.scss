@@ -4,3 +4,10 @@ $dark: rgb(14, 5, 10);
 $dark-gray: #282929;
 $gray: #545353;
 $white: #ffffff;
+
+@mixin container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
