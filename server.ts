@@ -6,6 +6,7 @@ import ErrorHandlerMiddleware from "./middleware/error-handler";
 import authRouter from "./routes/authRoutes";
 import chalk from "chalk";
 import connectDB from "./db/connect";
+import cors from "cors";
 import dotenv from "dotenv";
 import expenseRouter from "./routes/expenseRoutes";
 import notFoundMiddleware from "./middleware/not-found";
@@ -13,7 +14,7 @@ import notFoundMiddleware from "./middleware/not-found";
 dotenv.config();
 
 const app: Express = express();
-
+app.use(cors());
 const port = process.env.PORT || 4000;
 
 app.use(express.json());

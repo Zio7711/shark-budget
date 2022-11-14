@@ -2,17 +2,17 @@ import "../stylesheets/RegisterPage.scss";
 
 import * as yup from "yup";
 
-import { FormikBag, FormikHandlers, FormikValues, useFormik } from "formik";
+import { FormikValues, useFormik } from "formik";
+import { registerUser, selectAuth } from "../store/authSlice";
 import { useEffect, useState } from "react";
 
 import { Button } from "@mui/material";
 import { DollarLogo } from "../components/AllSVGs";
+import React from "react";
 import TextField from "@mui/material/TextField";
 import color from "../utils/color";
-
-import React from "react";
-
-type Props = {};
+import useAppDispatch from "../hooks/useAppDispatch";
+import { useAppSelector } from "../hooks/useAppSelector";
 
 const registerSchema = yup.object({
   name: yup.string().required("Name is required"),
@@ -41,6 +41,8 @@ const loginSchema = yup.object({
 
 const RegisterPage: React.FC = () => {
   const [isMember, setIsMember] = useState<Boolean>(true);
+  const auth = useAppSelector(selectAuth);
+  const dispatch = useAppDispatch();
   const initialValues = {
     name: "",
     email: "",
@@ -48,8 +50,13 @@ const RegisterPage: React.FC = () => {
   };
 
   const submitHandler = (values: FormikValues, actions: any) => {
-    console.log(values, actions);
-    console.log("submit");
+    if (isMember) {
+      console.log("Login");
+    } else {
+      console.log("submit", values);
+      const { name, email, password } = values;
+      dispatch(registerUser({ name, email, password }));
+    }
   };
 
   const validationSchema = isMember ? loginSchema : registerSchema;
@@ -105,7 +112,12 @@ const RegisterPage: React.FC = () => {
         type="password"
       />
 
-      <Button variant="contained" size="large" type="submit">
+      <Button
+        variant="contained"
+        size="large"
+        type="submit"
+        disabled={auth.isLoading}
+      >
         Submit
       </Button>
 

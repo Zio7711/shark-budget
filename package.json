@@ -2,13 +2,13 @@
   "name": "expense-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/index.js",
-    "server": "npx nodemon dist/server.js -q",
+    "start": "node dist/server.js",
+    "server": "npx nodemon dist/server.js --ignore client",
     "client": "npm start --prefix client",
-    "compile": "tsc server.ts --watch",
+    "compile": "tsc --watch",
     "dev": "concurrently --kill-others-on-fail \"npm run compile\" \"npm run server\" \"npm run client\""
   },
   "author": "",
@@ -26,11 +26,13 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "@types/cors": "^2.8.12",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/mongoose": "^5.11.97",
     "@types/validator": "^13.7.10",
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.2",
+    "cors": "^2.8.5",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.2",
     "validator": "^13.7.0"

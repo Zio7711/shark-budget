@@ -13,8 +13,8 @@ function App() {
       <Routes>
         <Route path="/landing" element={<LandingPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/expense" element={<ExpensePage />} />
-        <Route path="/" element={<BillingPage />} />
+        <Route path="/billing" element={<BillingPage />} />
+        <Route path="/" element={<ExpensePage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
