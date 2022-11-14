@@ -14,6 +14,7 @@ interface User {
   };
   password: string;
   createJWT: () => void;
+  comparePassword: (enteredPassword: string) => Promise<boolean>;
 }
 
 const UserSchema = new mongoose.Schema<User>({
@@ -49,9 +50,17 @@ UserSchema.pre("save", async function () {
 });
 
 // create JWT
-UserSchema.methods.createJWT = function () {
+UserSchema.methods.createJWT = function (): string {
   return jwt.sign({ userId: this._id }, process.env.JWT_SECRET as string, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
+
+UserSchema.methods.comparePassword = async function (
+  enteredPassword: string
+): Promise<boolean> {
+  const isMatch = await bcrypt.compare(enteredPassword, this.password);
+  return isMatch;
+};
+
 export default mongoose.model("User", UserSchema);

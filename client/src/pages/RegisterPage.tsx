@@ -3,7 +3,7 @@ import "../stylesheets/RegisterPage.scss";
 import * as yup from "yup";
 
 import { FormikValues, useFormik } from "formik";
-import { registerUser, selectAuth } from "../store/authSlice";
+import { loginUser, registerUser, selectAuth } from "../store/authSlice";
 import { useEffect, useState } from "react";
 
 import { Button } from "@mui/material";
@@ -62,7 +62,8 @@ const RegisterPage: React.FC = () => {
 
   const submitHandler = (values: FormikValues, actions: any) => {
     if (isMember) {
-      console.log("Login");
+      const { email, password } = values;
+      dispatch(loginUser({ email, password }));
     } else {
       const { name, email, password } = values;
       dispatch(registerUser({ name, email, password }));
