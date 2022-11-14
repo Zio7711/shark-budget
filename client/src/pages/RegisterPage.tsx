@@ -10,6 +10,10 @@ import { DollarLogo } from "../components/AllSVGs";
 import TextField from "@mui/material/TextField";
 import color from "../utils/color";
 
+import React from "react";
+
+type Props = {};
+
 const registerSchema = yup.object({
   name: yup.string().required("Name is required"),
   email: yup
@@ -35,7 +39,7 @@ const loginSchema = yup.object({
   isMember: yup.bool(),
 });
 
-const RegisterPage = () => {
+const RegisterPage: React.FC = () => {
   const [isMember, setIsMember] = useState<Boolean>(true);
   const initialValues = {
     name: "",

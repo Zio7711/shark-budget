@@ -4,6 +4,7 @@ import express, { Express, Request, Response } from "express";
 
 import ErrorHandlerMiddleware from "./middleware/error-handler";
 import authRouter from "./routes/authRoutes";
+import chalk from "chalk";
 import connectDB from "./db/connect";
 import dotenv from "dotenv";
 import expenseRouter from "./routes/expenseRoutes";
@@ -34,7 +35,9 @@ const start = async () => {
     await connectDB(process.env.MONGODB_URL as string);
     app.listen(port, () => {
       console.log(
-        `⚡️[server]: Server is running at https://localhost:${port}`
+        chalk.green.bold(
+          `[server]: Server is running at http://localhost:${port}...`
+        )
       );
     });
   } catch (error) {

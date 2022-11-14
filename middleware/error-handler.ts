@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import { StatusCodes } from "http-status-codes";
+import chalk from "chalk";
 
 const ErrorHandlerMiddleware = (
   err: any,
@@ -23,7 +24,7 @@ const ErrorHandlerMiddleware = (
     message = `${Object.keys(err.keyValue)} already exists`;
   }
 
-  console.log(message);
+  console.log(chalk.red(message));
   res.status(status).send({
     status,
     message,
