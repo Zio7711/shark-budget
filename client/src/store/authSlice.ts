@@ -1,6 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "./store";
+import Swal from "sweetalert2";
+import { addUserToLocalStorage } from "./../utils/localStorageHelper";
 import apiClient from "../api/client";
 import { authApi } from "../api";
 
@@ -17,11 +19,13 @@ type RegisterUserParams = {
   name: string;
 };
 
+const user = localStorage.getItem("user");
+const token = localStorage.getItem("token");
 // Define the initial state using that type
 const initialState: AuthState = {
-  user: null,
-  token: null,
-  email: null,
+  user: user ? JSON.parse(user) : null,
+  token: token ? token : null,
+  email: user ? JSON.parse(user).email : null,
   isLoading: false,
 };
 
@@ -51,9 +55,26 @@ export const authSlice = createSlice({
 
     registerUserFulfilled: (
       state,
-      action: PayloadAction<RegisterUserParams>
+      action: PayloadAction<{
+        user: { name: string; email: string };
+        token: string;
+      }>
     ) => {
-      console.log("registerUser", action.payload);
+      const { user, token } = action.payload;
+      state.user = user.name;
+      state.email = user.email;
+      state.token = token;
+
+      // add user and token to local storage
+      addUserToLocalStorage(user, token);
+      // alert success
+      Swal.fire({
+        heightAuto: false,
+        icon: "success",
+        title: "Registration Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     },
   },
   extraReducers: (builder) => {

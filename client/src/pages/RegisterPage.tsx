@@ -13,6 +13,7 @@ import TextField from "@mui/material/TextField";
 import color from "../utils/color";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
+import { useNavigate } from "react-router-dom";
 
 const registerSchema = yup.object({
   name: yup.string().required("Name is required"),
@@ -43,6 +44,16 @@ const RegisterPage: React.FC = () => {
   const [isMember, setIsMember] = useState<Boolean>(true);
   const auth = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (auth.user) {
+      setTimeout(() => {
+        navigate("/");
+      }, 1800);
+    }
+  }, [auth.user, navigate]);
+
   const initialValues = {
     name: "",
     email: "",
@@ -53,7 +64,6 @@ const RegisterPage: React.FC = () => {
     if (isMember) {
       console.log("Login");
     } else {
-      console.log("submit", values);
       const { name, email, password } = values;
       dispatch(registerUser({ name, email, password }));
     }
@@ -66,8 +76,6 @@ const RegisterPage: React.FC = () => {
     validationSchema,
     onSubmit: submitHandler,
   });
-
-  // global state and useNavigate
 
   return (
     <form onSubmit={formik.handleSubmit} className="register-page-container">
