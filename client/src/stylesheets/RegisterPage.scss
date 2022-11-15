@@ -4,4 +4,8 @@
   height: 80vh;
   @include container;
   justify-content: space-around;
+
+  input:focus {
+    background-color: #fff;
+  }
 }

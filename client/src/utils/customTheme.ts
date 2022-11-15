@@ -29,17 +29,24 @@ declare module "@mui/material/TextField" {
   }
 }
 
+// declare module "@mui/material/Tabs" {
+//   interface TabsPropsIndicatorColorOverrides {
+//     dark: true;
+//     main: true;
+//   }
+// }
+
 //customize the color pallette options for material ui
 const theme = createTheme({
   palette: {
     dark: {
       main: color.dark,
-      //   contrastText: "#fff",
+      // contrastText: "#fff",
     },
 
     main: {
       main: color.main,
-      //   contrastText: "#fff",
+      // contrastText: "#fff",
     },
   },
 });

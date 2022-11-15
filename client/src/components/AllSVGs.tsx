@@ -1,6 +1,7 @@
 interface SVGProps {
   fill: string;
   width?: string;
+  style?: any;
 }
 
 export const DollarLogo = (props: SVGProps) => {
