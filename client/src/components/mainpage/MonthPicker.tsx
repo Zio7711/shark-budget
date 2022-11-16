@@ -1,18 +1,23 @@
 import * as React from "react";
 
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import dayjs, { Dayjs } from "dayjs";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Button from "@mui/material/Button";
+import { CalendarPicker } from "@mui/x-date-pickers";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import MenuItem from "@mui/material/MenuItem";
 import { MonthPicker as MonthPickerComponent } from "@mui/x-date-pickers";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { YearPicker } from "@mui/x-date-pickers/";
+import { availableYears } from "../../constants/availableYear";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -26,6 +31,9 @@ const Transition = React.forwardRef(function Transition(
 export default function MonthPicker() {
   const [value, setValue] = React.useState<Dayjs | null>(dayjs(new Date()));
   const [open, setOpen] = React.useState(false);
+  const [year, setYear] = React.useState<string | undefined>(
+    value?.format("YYYY") || undefined
+  );
 
   const [displayDate, setDisplayDate] = React.useState<Dayjs | null>(
     dayjs(new Date())
@@ -50,6 +58,16 @@ export default function MonthPicker() {
     setValue(newValue);
   };
 
+  const handleYearSelection = (event: SelectChangeEvent) => {
+    const selectedYear = event.target.value;
+    setYear(selectedYear);
+    const dayJSYear = dayjs(value).year(Number(selectedYear));
+    setValue(dayJSYear);
+    // setValue(event.target.value);
+
+    console.log(dayJSYear.format("YYYY"));
+  };
+
   return (
     <>
       <Button variant="outlined" onClick={handleClickOpen} color="dark">
@@ -65,6 +83,22 @@ export default function MonthPicker() {
         <DialogTitle>Month Selection</DialogTitle>
         <DialogContent>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Year</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={year}
+                label="Year"
+                onChange={handleYearSelection}
+              >
+                {availableYears.map((year) => (
+                  <MenuItem value={year} key={year}>
+                    {year}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <MonthPickerComponent date={value} onChange={handleChange} />
           </LocalizationProvider>
         </DialogContent>
