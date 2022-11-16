@@ -1,10 +1,10 @@
 import "../stylesheets/MainPage.scss";
 
 import {
-  AboutUs,
   BillingStatement,
   ExpenseChart,
   ExpenseDetails,
+  MyProfile,
 } from "../components/mainpage";
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
 
@@ -40,7 +40,7 @@ const MainPage = () => {
       )}
       {value === "billing" && <BillingStatement />}
       {value === "chart" && <ExpenseChart />}
-      {value === "me" && <AboutUs />}
+      {value === "me" && <MyProfile />}
 
       <div className="bottom-nav-container" ref={bottomRef}>
         <BottomNavigation

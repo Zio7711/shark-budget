@@ -1,8 +1,11 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  addUserToLocalStorage,
+  removeUserFromLocalStorage,
+} from "./../utils/localStorageHelper";
 
 import { RootState } from "./store";
 import Swal from "sweetalert2";
-import { addUserToLocalStorage } from "./../utils/localStorageHelper";
 import apiClient from "../api/client";
 import { authApi } from "../api";
 
@@ -26,7 +29,7 @@ type LoginUserParams = {
 const user = localStorage.getItem("user");
 const token = localStorage.getItem("token");
 // Define the initial state using that type
-const initialState: AuthState = {
+export const initialState: AuthState = {
   user: user ? JSON.parse(user) : null,
   token: token ? token : null,
   email: user ? JSON.parse(user).email : null,
@@ -118,6 +121,13 @@ export const authSlice = createSlice({
         timer: 1500,
       });
     },
+
+    logoutUser: (state) => {
+      state.user = null;
+      state.email = null;
+      state.token = null;
+      removeUserFromLocalStorage();
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state) => {
@@ -130,8 +140,12 @@ export const authSlice = createSlice({
   },
 });
 
-export const { registerUserFulfilled, setLoading, loginUserFulfilled } =
-  authSlice.actions;
+export const {
+  registerUserFulfilled,
+  setLoading,
+  loginUserFulfilled,
+  logoutUser,
+} = authSlice.actions;
 
 export const selectAuth = (state: RootState) => state.auth;
 

@@ -1,9 +1,9 @@
-import RestaurantIcon from "@mui/icons-material/Restaurant";
+import { GiShinyApple } from "react-icons/gi";
 const ExpenseItem = () => {
   return (
     <div className="expense-item-container">
       <div>
-        <RestaurantIcon />
+        <GiShinyApple />
       </div>
 
       <div className="expense-item-right-section">
