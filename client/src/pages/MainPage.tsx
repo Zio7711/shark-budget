@@ -1,35 +1,48 @@
 import "../stylesheets/MainPage.scss";
 
-import * as React from "react";
-
 import {
   AboutUs,
   BillingStatement,
   ExpenseChart,
   ExpenseDetails,
 } from "../components/mainpage";
+import { SyntheticEvent, useEffect, useRef, useState } from "react";
 
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import { Button } from "@mui/material";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 
 const MainPage = () => {
-  const [value, setValue] = React.useState("details");
+  const [value, setValue] = useState<string>("details");
+  const [bottomNavOffsetHeight, setBottomNavOffsetHeight] = useState<
+    number | undefined
+  >(0);
 
-  const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setBottomNavOffsetHeight(bottomRef?.current?.offsetHeight);
+  }, [bottomRef]);
+
   return (
     <div className="main-page-container">
-      {value === "details" && <ExpenseDetails />}
+      {value === "details" && (
+        <ExpenseDetails bottomNavOffsetHeight={bottomNavOffsetHeight} />
+      )}
       {value === "billing" && <BillingStatement />}
       {value === "chart" && <ExpenseChart />}
       {value === "me" && <AboutUs />}
 
-      <div className="bottom-nav-container">
+      <div className="bottom-nav-container" ref={bottomRef}>
         <BottomNavigation
           showLabels
           sx={{ width: "45vw" }}
@@ -47,6 +60,15 @@ const MainPage = () => {
             icon={<AccountBalanceOutlinedIcon />}
           />
         </BottomNavigation>
+
+        <Button className="add-expense">
+          <AddCircleOutlineOutlinedIcon
+            sx={{
+              fontSize: "2.5em",
+            }}
+          />
+        </Button>
+
         <BottomNavigation
           showLabels
           sx={{ width: "45vw" }}

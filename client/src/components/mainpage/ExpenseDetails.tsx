@@ -1,12 +1,27 @@
+import { useEffect, useRef, useState } from "react";
+
 import DatePicker from "./MonthPicker";
 import { DollarLogo } from "../AllSVGs";
 import ExpenseDetailsBody from "./ExpenseDetailsBody";
-import React from "react";
 import color from "../../utils/color";
-const ExpenseDetails = () => {
+
+interface Props {
+  bottomNavOffsetHeight: number | undefined;
+}
+
+const ExpenseDetails = ({ bottomNavOffsetHeight }: Props) => {
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const [headerOffsetHeight, setHeaderOffsetHeight] = useState<
+    number | undefined
+  >(0);
+
+  useEffect(() => {
+    setHeaderOffsetHeight(headerRef?.current?.offsetHeight);
+  }, [headerRef]);
+
   return (
     <div className="expense-details-container">
-      <div className="expense-details-header">
+      <div className="expense-details-header" ref={headerRef}>
         <div className="title-section">
           <DollarLogo
             width="30px"
@@ -33,7 +48,12 @@ const ExpenseDetails = () => {
         </div>
       </div>
 
-      <ExpenseDetailsBody />
+      {headerOffsetHeight && bottomNavOffsetHeight && (
+        <ExpenseDetailsBody
+          bottomNavOffsetHeight={bottomNavOffsetHeight}
+          headerOffsetHeight={headerOffsetHeight}
+        />
+      )}
     </div>
   );
 };

@@ -2,10 +2,10 @@ import * as React from "react";
 
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import dayjs, { Dayjs } from "dayjs";
+import { selectExpense, updateDate } from "../../store/expenseSlice";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Button from "@mui/material/Button";
-import { CalendarPicker } from "@mui/x-date-pickers";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -18,6 +18,8 @@ import { MonthPicker as MonthPickerComponent } from "@mui/x-date-pickers";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { availableYears } from "../../constants/availableYear";
+import useAppDispatch from "../../hooks/useAppDispatch";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -30,13 +32,11 @@ const Transition = React.forwardRef(function Transition(
 
 export default function MonthPicker() {
   const [value, setValue] = React.useState<Dayjs | null>(dayjs(new Date()));
+  const dispatch = useAppDispatch();
+  const { date } = useAppSelector(selectExpense);
   const [open, setOpen] = React.useState(false);
   const [year, setYear] = React.useState<string | undefined>(
     value?.format("YYYY") || undefined
-  );
-
-  const [displayDate, setDisplayDate] = React.useState<Dayjs | null>(
-    dayjs(new Date())
   );
 
   const handleClickOpen = () => {
@@ -48,9 +48,9 @@ export default function MonthPicker() {
   const handleClose = (_: any, _2: any, shouldSetValue: boolean = false) => {
     setOpen(false);
     if (shouldSetValue) {
-      setDisplayDate(value);
+      dispatch(updateDate(dayjs(value).format("YYYY-MM-DD")));
     } else {
-      setValue(displayDate);
+      setValue(dayjs(date));
     }
   };
 
@@ -63,7 +63,6 @@ export default function MonthPicker() {
     setYear(selectedYear);
     const dayJSYear = dayjs(value).year(Number(selectedYear));
     setValue(dayJSYear);
-    // setValue(event.target.value);
 
     console.log(dayJSYear.format("YYYY"));
   };
@@ -71,7 +70,7 @@ export default function MonthPicker() {
   return (
     <>
       <Button variant="outlined" onClick={handleClickOpen} color="dark">
-        {displayDate?.format("YYYY-MM")}
+        {dayjs(date)?.format("YYYY-MM")}
       </Button>
       <Dialog
         open={open}
