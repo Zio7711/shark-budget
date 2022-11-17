@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 
 import { StatusCodes } from "http-status-codes";
 import User from "../models/User";
+import { UserRequest } from "./../middleware/auth";
 
 const register = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
@@ -51,7 +52,8 @@ const login = async (req: Request, res: Response) => {
     .json({ user: { email: user.email, name: user.name }, token });
 };
 
-const updateUser = (req: Request, res: Response) => {
+const updateUser = (req: UserRequest, res: Response) => {
+  console.log(req.user);
   res.send("update user");
 };
 
