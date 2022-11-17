@@ -2,6 +2,7 @@ import mongoose, { PopulatedDoc } from "mongoose";
 
 import { User } from "./User";
 import expenseCategories from "./expenseCategories";
+import incomeCategories from "./incomeCategories";
 
 interface Expense {
   category: string;
@@ -16,7 +17,7 @@ const ExpenseSchema = new mongoose.Schema<Expense>({
   category: {
     type: String,
     required: [true, "Please provide a type."],
-    enum: expenseCategories,
+    enum: [...expenseCategories, ...incomeCategories],
     default: "other",
   },
   amount: {
@@ -27,6 +28,7 @@ const ExpenseSchema = new mongoose.Schema<Expense>({
   type: {
     type: String,
     enum: ["expense", "income"],
+    required: [true, "Please provide a type."],
   },
   date: {
     type: Date,

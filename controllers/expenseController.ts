@@ -1,14 +1,19 @@
 import { Request, Response } from "express";
 
 import { BadRequestError } from "../errors";
+import Expense from "../models/Expense";
 import { StatusCodes } from "http-status-codes";
+import { UserRequest } from "./../middleware/auth";
 
-const createExpense = async (req: Request, res: Response) => {
-  const { type, amount, category, date, description, createdBy } = req.body;
-  if (!type || !amount || !category || !date || !description || !createdBy) {
+const createExpense = async (req: UserRequest, res: Response) => {
+  const { type, amount, category, date, description } = req.body;
+  if (!type || !amount || !category || !date || !description) {
     throw new BadRequestError("Please provide all required fields.");
   }
-  res.send("create expense");
+
+  req.body.createdBy = req.user?.userId;
+  const newExpense = await Expense.create(req.body);
+  res.status(StatusCodes.CREATED).json({ newExpense });
 };
 
 const getAllExpenses = async (req: Request, res: Response) => {
