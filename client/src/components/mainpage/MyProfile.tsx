@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import apiClient from "../../api/client";
 import { logoutUser } from "../../store/authSlice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 

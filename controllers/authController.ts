@@ -52,9 +52,22 @@ const login = async (req: Request, res: Response) => {
     .json({ user: { email: user.email, name: user.name }, token });
 };
 
-const updateUser = (req: UserRequest, res: Response) => {
-  console.log(req.user);
-  res.send("update user");
+const updateUser = async (req: UserRequest, res: Response) => {
+  const { name } = req.body;
+  if (!name) {
+    throw new BadRequestError("Please provide all values");
+  }
+
+  const user = await User.findByIdAndUpdate({ _id: req.user?.userId });
+
+  if (user) {
+    user.name = name;
+    await user.save();
+    const token = user.createJWT();
+    res
+      .status(StatusCodes.OK)
+      .json({ user: { email: user.email, name }, token });
+  }
 };
 
 export { register, login, updateUser };

@@ -32,7 +32,6 @@ apiClient.interceptors.response.use(
     // Do something with response data
     response,
   (error) => {
-    console.log("err", error);
     console.log("err.message", error.message);
 
     // Any status codes that falls outside the range of 2xx cause this function to trigger
