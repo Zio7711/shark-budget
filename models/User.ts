@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import validator from "validator";
 
-interface User {
+export interface User {
   name: string;
   email: {
     validate: {

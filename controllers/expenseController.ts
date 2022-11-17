@@ -1,6 +1,13 @@
 import { Request, Response } from "express";
 
+import { BadRequestError } from "../errors";
+import { StatusCodes } from "http-status-codes";
+
 const createExpense = async (req: Request, res: Response) => {
+  const { type, amount, category, date, description, createdBy } = req.body;
+  if (!type || !amount || !category || !date || !description || !createdBy) {
+    throw new BadRequestError("Please provide all required fields.");
+  }
   res.send("create expense");
 };
 

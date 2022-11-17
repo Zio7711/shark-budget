@@ -23,7 +23,7 @@ apiClient.interceptors.response.use(
     if (status === UNAUTHORIZED) {
       dispatch(logoutUser());
     }
-    return Promise.reject(error);
+    return;
   }
 );
 
