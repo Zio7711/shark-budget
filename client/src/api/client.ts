@@ -2,7 +2,8 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:4000/api/v1",
+  // baseURL: "http://localhost:4000/api/v1",
+  baseURL: "http://192.168.3.108:4000/api/v1",
   // timeout: 1000,
 });
 

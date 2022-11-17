@@ -4,11 +4,13 @@
 * {
   margin: 0;
   box-sizing: border-box;
+  font-family: "Sono", sans-serif !important;
 }
 
-html {
+html,
+.MuiToolbar-root {
   // background-color: $dark;
-  font-family: "Sono", sans-serif;
+  font-family: "Sono", sans-serif !important;
 }
 
 body {

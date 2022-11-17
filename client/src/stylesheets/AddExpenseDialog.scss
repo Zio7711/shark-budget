@@ -1,0 +1,27 @@
+@import "_variables";
+
+.expense-category-list-item-container {
+  @include container;
+  width: calc(90vw / 3);
+  height: calc(90vw / 3);
+  font-size: 1.1em;
+  //   height: 5.5rem;
+
+  .category-icon {
+    border: 1px solid lightgray;
+    background: $main;
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: 0.5rem;
+
+    border-radius: 50%;
+    margin-bottom: 0.2rem;
+  }
+}
+
+.expense-category-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5vw;
+  //   justify-content: space-around;
+}

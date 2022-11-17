@@ -10,11 +10,10 @@ import { SyntheticEvent, useEffect, useRef, useState } from "react";
 
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import { AddExpenseDialog } from "../components/mainpage";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import { Button } from "@mui/material";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 
 const MainPage = () => {
@@ -61,13 +60,7 @@ const MainPage = () => {
           />
         </BottomNavigation>
 
-        <Button className="add-expense">
-          <AddCircleOutlineOutlinedIcon
-            sx={{
-              fontSize: "2.5em",
-            }}
-          />
-        </Button>
+        <AddExpenseDialog />
 
         <BottomNavigation
           showLabels
