@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
-import DatePicker from "./MonthPicker";
-import { DollarLogo } from "../AllSVGs";
+import DatePicker from "../MonthPicker";
+import { DollarLogo } from "../../AllSVGs";
 import ExpenseDetailsBody from "./ExpenseDetailsBody";
-import color from "../../utils/color";
+import color from "../../../utils/color";
 
 interface Props {
   bottomNavOffsetHeight: number | undefined;
