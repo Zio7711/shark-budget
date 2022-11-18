@@ -1,8 +1,13 @@
 import "../../stylesheets/AddExpenseDialog.scss";
 
 import { SyntheticEvent, forwardRef, useState } from "react";
+import {
+  expenseCategories,
+  incomeCategories,
+} from "../../utils/CategoryIconLookUp";
 
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import AddExpenseForm from "./AddExpenseForm";
 import AppBar from "@mui/material/AppBar";
 import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -28,15 +33,30 @@ const Transition = forwardRef(function Transition(
 });
 
 const AddExpenseDialog = () => {
-  const [open, setOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [type, setType] = useState<"expense" | "income">("expense");
 
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+
+  //set up open input field
+  const [openInputField, setOpenInputField] = useState<boolean>(false);
+  const handleCloseInputField = () => {
+    setOpenInputField(false);
+  };
+  const handleToggle = (category: string) => {
+    setSelectedCategory(category);
+    setOpenInputField(!openInputField);
+  };
+
+  // set up open dialog
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenDialog(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setSelectedCategory("");
+    setOpenDialog(false);
+    setType("expense");
   };
 
   const handleChangeTab = (
@@ -57,11 +77,11 @@ const AddExpenseDialog = () => {
       </Button>
       <Dialog
         fullScreen
-        open={open}
+        open={openDialog}
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative", backgroundColor: `${color.main}` }}>
+        <AppBar sx={{ position: "sticky", backgroundColor: `${color.main}` }}>
           <Toolbar sx={{ color: "black" }}>
             <IconButton
               edge="start"
@@ -96,11 +116,55 @@ const AddExpenseDialog = () => {
 
         <div className="expense-category-list-container">
           {type === "expense" &&
-            _.range(10).map((el) => <ExpenseCategoryListItem />)}
+            expenseCategories.map((el) => (
+              <ExpenseCategoryListItem
+                category={el}
+                key={el}
+                handleToggle={handleToggle}
+                selectedCategory={selectedCategory}
+              />
+            ))}
 
           {type === "income" &&
-            _.range(1).map((el) => <ExpenseCategoryListItem />)}
+            incomeCategories.map((el) => (
+              <ExpenseCategoryListItem
+                category={el}
+                key={el}
+                handleToggle={handleToggle}
+                selectedCategory={selectedCategory}
+              />
+            ))}
         </div>
+      </Dialog>
+
+      {/* input Dialog */}
+      <Dialog
+        open={openInputField}
+        onClose={handleCloseInputField}
+        TransitionComponent={Transition}
+      >
+        <AppBar sx={{ position: "relative", backgroundColor: `${color.main}` }}>
+          <Toolbar sx={{ color: "black" }}>
+            <Button autoFocus color="inherit" onClick={handleCloseInputField}>
+              <CloseIcon />
+            </Button>
+
+            <Typography
+              sx={{ ml: 2, flex: 1, fontSize: "1.5em" }}
+              variant="h6"
+              component="div"
+            >
+              {selectedCategory}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+
+        <AddExpenseForm
+          selectedCategory={selectedCategory}
+          type={type}
+          handleCloseInputField={handleCloseInputField}
+          handleClose={handleClose}
+        />
       </Dialog>
     </>
   );

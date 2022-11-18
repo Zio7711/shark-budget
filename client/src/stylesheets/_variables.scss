@@ -4,7 +4,7 @@ $dark: rgb(14, 5, 10);
 $dark-gray: #282929;
 $gray: #545353;
 $white: #ffffff;
-
+$light-gray: rgb(230, 230, 230);
 @mixin container {
   display: flex;
   justify-content: center;
