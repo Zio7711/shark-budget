@@ -1,7 +1,6 @@
-import { Request, Response } from "express";
-
 import { BadRequestError } from "../errors";
 import Expense from "../models/Expense";
+import { Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { UserRequest } from "./../middleware/auth";
 
@@ -16,19 +15,20 @@ const createExpense = async (req: UserRequest, res: Response) => {
   res.status(StatusCodes.CREATED).json({ newExpense });
 };
 
-const getAllExpenses = async (req: Request, res: Response) => {
-  res.send("get all expenses");
+const getAllExpenses = async (req: UserRequest, res: Response) => {
+  const expenseList = await Expense.find({ createdBy: req.user?.userId });
+  res.status(StatusCodes.OK).json({ expenseList, numOfPages: 1 });
 };
 
-const getExpense = async (req: Request, res: Response) => {
+const getExpense = async (req: UserRequest, res: Response) => {
   res.send("get expense");
 };
 
-const updateExpense = async (req: Request, res: Response) => {
+const updateExpense = async (req: UserRequest, res: Response) => {
   res.send("update expense");
 };
 
-const deleteExpense = async (req: Request, res: Response) => {
+const deleteExpense = async (req: UserRequest, res: Response) => {
   res.send("delete expense");
 };
 

@@ -15,12 +15,15 @@ import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
+import { getAllExpenses } from "../store/expenseSlice";
+import useAppDispatch from "../hooks/useAppDispatch";
 
 const MainPage = () => {
   const [value, setValue] = useState<string>("details");
   const [bottomNavOffsetHeight, setBottomNavOffsetHeight] = useState<
     number | undefined
   >(0);
+  const dispatch = useAppDispatch();
 
   const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -31,6 +34,11 @@ const MainPage = () => {
   useEffect(() => {
     setBottomNavOffsetHeight(bottomRef?.current?.offsetHeight);
   }, [bottomRef]);
+
+  // get all expenses
+  useEffect(() => {
+    dispatch(getAllExpenses());
+  }, []);
 
   return (
     <div className="main-page-container">

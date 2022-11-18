@@ -6,6 +6,7 @@ import { createExpense, selectExpense } from "../../store/expenseSlice";
 import dayjs, { Dayjs } from "dayjs";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import AppBackDrop from "../AppBackDrop";
 import ExpenseCategoryListItem from "../ExpenseCategoryListItem";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
@@ -33,6 +34,7 @@ const AddExpenseForm = ({
 }: Props) => {
   const [value, setValue] = useState<Dayjs | null>(dayjs(new Date()));
   const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector(selectExpense);
 
   const handleChange = (newValue: Dayjs | null) => {
     setValue(newValue);
@@ -149,6 +151,7 @@ const AddExpenseForm = ({
           Add
         </Button>
       </form>
+      <AppBackDrop open={isLoading} />
     </>
   );
 };

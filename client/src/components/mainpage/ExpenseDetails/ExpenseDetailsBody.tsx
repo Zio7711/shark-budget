@@ -1,4 +1,6 @@
 import ExpenseItem from "./ExpenseItem";
+import { selectExpense } from "../../../store/expenseSlice";
+import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useMemo } from "react";
 interface Props {
   bottomNavOffsetHeight: number | undefined;
@@ -9,6 +11,8 @@ const ExpenseDetailsBody = ({
   bottomNavOffsetHeight,
   headerOffsetHeight,
 }: Props) => {
+  const { expenseList } = useAppSelector(selectExpense);
+
   // calculate body height
   const bodyHeight = useMemo(() => {
     const totalHeight = window.innerHeight;
@@ -31,11 +35,9 @@ const ExpenseDetailsBody = ({
         <span>11.12 Wednesday</span>
         <span>expense: 190</span>
       </p>
-      <ExpenseItem />
-      <ExpenseItem />
-      <ExpenseItem />
-      <ExpenseItem />
-      <ExpenseItem />
+      {expenseList.map((expense) => (
+        <ExpenseItem key={expense._id} expense={expense} />
+      ))}
     </div>
   );
 };

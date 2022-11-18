@@ -1,14 +1,21 @@
+import CategoryIconLookUp from "../../../utils/CategoryIconLookUp";
+import { Expense } from "../../../store/expenseSlice";
 import { GiShinyApple } from "react-icons/gi";
-const ExpenseItem = () => {
+interface Props {
+  expense: Expense;
+}
+const ExpenseItem = ({ expense }: Props) => {
+  const displayAmount =
+    expense.type === "expense" ? `-${expense.amount}` : `${expense.amount}`;
   return (
     <div className="expense-item-container">
       <div>
-        <GiShinyApple />
+        <CategoryIconLookUp category={expense.category} />
       </div>
 
       <div className="expense-item-right-section">
-        <p>Fruit</p>
-        <p>-50</p>
+        <p>{expense.description}</p>
+        <p>{displayAmount}</p>
       </div>
     </div>
   );
