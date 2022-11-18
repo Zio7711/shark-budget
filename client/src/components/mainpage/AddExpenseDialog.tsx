@@ -8,6 +8,7 @@ import {
 
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import AddExpenseForm from "./AddExpenseForm";
+import AppBackDrop from "../AppBackDrop";
 import AppBar from "@mui/material/AppBar";
 import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -22,6 +23,8 @@ import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
 import _ from "lodash";
 import color from "../../utils/color";
+import { selectExpense } from "../../store/expenseSlice";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -35,6 +38,7 @@ const Transition = forwardRef(function Transition(
 const AddExpenseDialog = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [type, setType] = useState<"expense" | "income">("expense");
+  const { isLoading } = useAppSelector(selectExpense);
 
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
@@ -98,9 +102,6 @@ const AddExpenseDialog = () => {
             >
               Add an {type}
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              save
-            </Button>
           </Toolbar>
         </AppBar>
 
@@ -166,6 +167,8 @@ const AddExpenseDialog = () => {
           handleClose={handleClose}
         />
       </Dialog>
+
+      <AppBackDrop open={isLoading} />
     </>
   );
 };

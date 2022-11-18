@@ -2,12 +2,15 @@ import * as yup from "yup";
 
 import { Button, TextField } from "@mui/material";
 import { FormikValues, useFormik } from "formik";
+import { createExpense, selectExpense } from "../../store/expenseSlice";
 import dayjs, { Dayjs } from "dayjs";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import ExpenseCategoryListItem from "../ExpenseCategoryListItem";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import useAppDispatch from "../../hooks/useAppDispatch";
+import { useAppSelector } from "../../hooks/useAppSelector";
 import { useState } from "react";
 
 interface Props {
@@ -29,6 +32,7 @@ const AddExpenseForm = ({
   handleClose,
 }: Props) => {
   const [value, setValue] = useState<Dayjs | null>(dayjs(new Date()));
+  const dispatch = useAppDispatch();
 
   const handleChange = (newValue: Dayjs | null) => {
     setValue(newValue);
@@ -39,7 +43,7 @@ const AddExpenseForm = ({
     expenseDate: Date.now(),
   };
 
-  const submitHandler = (values: FormikValues, actions: any) => {
+  const submitHandler = async (values: FormikValues, actions: any) => {
     const newExpenseObject = {
       type: type,
       amount: values.amount,
@@ -48,7 +52,8 @@ const AddExpenseForm = ({
       description: values.description,
     };
 
-    console.log("click", newExpenseObject);
+    await dispatch(createExpense(newExpenseObject));
+
     handleClose();
     handleCloseInputField();
     actions.resetForm();

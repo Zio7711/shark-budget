@@ -48,7 +48,8 @@ export default function MonthPicker() {
   const handleClose = (_: any, _2: any, shouldSetValue: boolean = false) => {
     setOpen(false);
     if (shouldSetValue) {
-      dispatch(updateDate(dayjs(value).format("YYYY-MM-DD")));
+      const setDate = Date.parse(value?.format("YYYY-MM-DD") || "");
+      dispatch(updateDate(setDate));
     } else {
       setValue(dayjs(date));
     }
