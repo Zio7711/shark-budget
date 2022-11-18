@@ -6,9 +6,13 @@
   padding: 5em 0;
   background: $main;
   @include container;
-  justify-content: space-around;
+  justify-content: center;
 
   input:focus {
     background-color: #fff;
+  }
+
+  .css-jh47zj-MuiButtonBase-root-MuiButton-root {
+    margin: 2em;
   }
 }

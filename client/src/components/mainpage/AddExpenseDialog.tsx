@@ -146,7 +146,7 @@ const AddExpenseDialog = () => {
       >
         <AppBar sx={{ position: "relative", backgroundColor: `${color.main}` }}>
           <Toolbar sx={{ color: "black" }}>
-            <Button autoFocus color="inherit" onClick={handleCloseInputField}>
+            <Button color="inherit" onClick={handleCloseInputField}>
               <CloseIcon />
             </Button>
 

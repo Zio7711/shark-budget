@@ -23,7 +23,13 @@ interface expenseSlice {
   page: number;
 }
 
-type CreateExpenseParam = {};
+type ExpenseParam = {
+  type?: string;
+  amount?: number;
+  category?: string;
+  date?: number;
+  description?: string;
+};
 
 // Define the initial state using that type
 const initialState: expenseSlice = {
@@ -36,7 +42,7 @@ const initialState: expenseSlice = {
 
 export const createExpense = createAsyncThunk(
   "auth/createExpense",
-  async (params: CreateExpenseParam, { dispatch }) => {
+  async (params: ExpenseParam, { dispatch }) => {
     try {
       // post request for creating expense
       const response = await apiClient.post(
@@ -59,6 +65,38 @@ export const getAllExpenses = createAsyncThunk(
       return response.data;
     } catch (error) {
       dispatch(logoutUser());
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
+export const editExpense = createAsyncThunk(
+  "auth/editExpense",
+  async (params: ExpenseParam & { id: string }, { dispatch }) => {
+    const { id, ...restParams } = params;
+    try {
+      const response = await apiClient.patch(
+        expenseApi.EditExpense(id),
+        restParams
+      );
+      return response.data;
+    } catch (error) {
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
+export const deleteExpense = createAsyncThunk(
+  "auth/deleteExpense",
+  async (params: { id: string }, { dispatch }) => {
+    try {
+      const response = await apiClient.delete(
+        expenseApi.DeleteExpense(params.id)
+      );
+      return response.data;
+    } catch (error) {
     } finally {
       dispatch(setLoading(false));
     }
@@ -94,9 +132,36 @@ export const expenseSlice = createSlice({
       state.isLoading = true;
     });
 
+    builder.addCase(editExpense.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteExpense.pending, (state) => {
+      state.isLoading = true;
+    });
+
     builder.addCase(getAllExpenses.fulfilled, (state, action) => {
-      state.expenseList = action.payload.expenseList;
-      state.numOfPages = action.payload.numOfPages;
+      if (action.payload) {
+        state.expenseList = action.payload.expenseList;
+        state.numOfPages = action.payload.numOfPages;
+      }
+    });
+
+    builder.addCase(editExpense.fulfilled, (state, action) => {
+      if (action.payload) {
+        const index = state.expenseList.findIndex(
+          (expense) => expense._id === action.payload.updatedExpense._id
+        );
+        state.expenseList[index] = action.payload.updatedExpense;
+      }
+    });
+
+    builder.addCase(deleteExpense.fulfilled, (state, action) => {
+      if (action.payload) {
+        const index = state.expenseList.findIndex(
+          (expense) => expense._id === action.payload.deletedExpenseId
+        );
+        state.expenseList.splice(index, 1);
+      }
     });
   },
 });

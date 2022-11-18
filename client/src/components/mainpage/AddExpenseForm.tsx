@@ -46,11 +46,13 @@ const AddExpenseForm = ({
   };
 
   const submitHandler = async (values: FormikValues, actions: any) => {
+    const dateDayJS = value ? value : dayjs(new Date());
+    const date = Date.parse(dateDayJS.toString());
     const newExpenseObject = {
       type: type,
       amount: values.amount,
       category: selectedCategory,
-      date: 1668658764373,
+      date,
       description: values.description,
     };
 
@@ -62,6 +64,15 @@ const AddExpenseForm = ({
   };
 
   const validationSchema = createExpenseSchema;
+
+  // manual auto focus
+  const focusAmountField = (textField: HTMLDivElement) => {
+    if (textField) {
+      setTimeout(() => {
+        textField.querySelector("input")?.focus();
+      }, 100);
+    }
+  };
 
   const formik = useFormik({
     initialValues,
@@ -119,7 +130,8 @@ const AddExpenseForm = ({
               error={formik.touched.amount && Boolean(formik.errors.amount)}
               helperText={formik.touched.amount && formik.errors.amount}
               margin="dense"
-              autoFocus={true} // need to debug this
+              autoFocus={true}
+              ref={focusAmountField}
             />
             <TextField
               type="text"

@@ -64,8 +64,6 @@ export default function MonthPicker() {
     setYear(selectedYear);
     const dayJSYear = dayjs(value).year(Number(selectedYear));
     setValue(dayJSYear);
-
-    console.log(dayJSYear.format("YYYY"));
   };
 
   return (

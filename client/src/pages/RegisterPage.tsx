@@ -94,6 +94,7 @@ const RegisterPage: React.FC = () => {
           onChange={formik.handleChange}
           error={formik.touched.name && Boolean(formik.errors.name)}
           helperText={formik.touched.name && formik.errors.name}
+          margin="normal"
         />
       )}
 
@@ -107,6 +108,7 @@ const RegisterPage: React.FC = () => {
         onChange={formik.handleChange}
         error={formik.touched.email && Boolean(formik.errors.email)}
         helperText={formik.touched.email && formik.errors.email}
+        margin="normal"
       />
 
       <TextField
@@ -119,6 +121,7 @@ const RegisterPage: React.FC = () => {
         error={formik.touched.password && Boolean(formik.errors.password)}
         helperText={formik.touched.password && formik.errors.password}
         type="password"
+        margin="normal"
       />
 
       <Button

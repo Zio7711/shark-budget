@@ -1,7 +1,11 @@
 import * as yup from "yup";
 
 import { Button, TextField } from "@mui/material";
-import { Expense, selectExpense } from "../../../store/expenseSlice";
+import {
+  Expense,
+  editExpense,
+  selectExpense,
+} from "../../../store/expenseSlice";
 import { FormikValues, useFormik } from "formik";
 import dayjs, { Dayjs } from "dayjs";
 
@@ -21,8 +25,9 @@ const editExpenseSchema = yup.object({
 
 interface Props {
   expense: Expense | null;
+  handleCloseEditField: () => void;
 }
-const EditExpense = ({ expense }: Props) => {
+const EditExpense = ({ expense, handleCloseEditField }: Props) => {
   const [value, setValue] = useState<Dayjs | null>(dayjs(new Date()));
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector(selectExpense);
@@ -37,19 +42,22 @@ const EditExpense = ({ expense }: Props) => {
   };
 
   const submitHandler = async (values: FormikValues, actions: any) => {
-    //   const newExpenseObject = {
-    //     type: type,
-    //     amount: values.amount,
-    //     category: selectedCategory,
-    //     date: 1668658764373,
-    //     description: values.description,
-    //   };
+    const dateDayJS = value ? value : dayjs(new Date());
+    const date = Date.parse(dateDayJS.toString());
 
-    //   await dispatch(createExpense(newExpenseObject));
+    if (expense) {
+      const editExpenseObject = {
+        amount: values.amount,
+        date,
+        description: values.description,
+        id: expense._id,
+      };
 
-    //   handleClose();
-    //   handleCloseInputField();
-    actions.resetForm();
+      await dispatch(editExpense(editExpenseObject));
+
+      handleCloseEditField();
+      actions.resetForm();
+    }
   };
 
   const validationSchema = editExpenseSchema;
@@ -107,7 +115,7 @@ const EditExpense = ({ expense }: Props) => {
               error={formik.touched.amount && Boolean(formik.errors.amount)}
               helperText={formik.touched.amount && formik.errors.amount}
               margin="dense"
-              autoFocus={true} //! need to debug this
+              autoFocus={true}
             />
             <TextField
               type="text"
