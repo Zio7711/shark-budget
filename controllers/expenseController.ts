@@ -5,6 +5,7 @@ import { Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { UserRequest } from "./../middleware/auth";
 import checkPermissions from "../utils/checkPermissions";
+import mongoose from "mongoose";
 
 const createExpense = async (req: UserRequest, res: Response) => {
   const { type, amount, category, date, description } = req.body;
@@ -18,12 +19,50 @@ const createExpense = async (req: UserRequest, res: Response) => {
 };
 
 const getAllExpenses = async (req: UserRequest, res: Response) => {
-  const expenseList = await Expense.find({ createdBy: req.user?.userId });
+  // const expenseList = await Expense.find({ createdBy: req.user?.userId });
+  const month = req.query.month || new Date().getMonth() + 1;
+  const year = req.query.year || new Date().getFullYear();
+  const expenseList = await Expense.aggregate([
+    {
+      $addFields: {
+        month: { $month: "$date" },
+        year: { $year: "$date" },
+      },
+    },
+    {
+      $match: {
+        // createdBy: mongoose.Types.ObjectId(req.user?.userId),
+        $and: [
+          { createdBy: new mongoose.Types.ObjectId(req.user?.userId) },
+          { month: Number(month) },
+          { year: Number(year) },
+        ],
+      },
+    },
+    // {
+    //   $group: {
+    //     _id: {
+    //       date: "$date",
+    //     },
+    //     expenses: {
+    //       $push: {
+    //         _id: "$_id",
+    //         type: "$type",
+    //         amount: "$amount",
+    //         category: "$category",
+    //         date: "$date",
+    //         description: "$description",
+    //       },
+    //     },
+    //   },
+    // },
+  ]);
+
   res.status(StatusCodes.OK).json({ expenseList, numOfPages: 1 });
 };
 
 const getExpense = async (req: UserRequest, res: Response) => {
-  res.send("get expense");
+  res.status(StatusCodes.OK).send("getExpense");
 };
 
 const updateExpense = async (req: UserRequest, res: Response) => {
@@ -62,12 +101,10 @@ const deleteExpense = async (req: UserRequest, res: Response) => {
   checkPermissions(req.user?.userId, expense.createdBy);
 
   await Expense.deleteOne({ _id: expenseId });
-  res
-    .status(StatusCodes.OK)
-    .json({
-      message: "Expense deleted successfully.",
-      deletedExpenseId: expenseId,
-    });
+  res.status(StatusCodes.OK).json({
+    message: "Expense deleted successfully.",
+    deletedExpenseId: expenseId,
+  });
 };
 
 export {

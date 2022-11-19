@@ -4,6 +4,7 @@ import { Button, TextField } from "@mui/material";
 import { FormikValues, useFormik } from "formik";
 import { createExpense, selectExpense } from "../../store/expenseSlice";
 import dayjs, { Dayjs } from "dayjs";
+import { useEffect, useRef, useState } from "react";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import AppBackDrop from "../AppBackDrop";
@@ -12,7 +13,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { useState } from "react";
 
 interface Props {
   selectedCategory: string;
@@ -65,14 +65,17 @@ const AddExpenseForm = ({
 
   const validationSchema = createExpenseSchema;
 
-  // manual auto focus
-  const focusAmountField = (textField: HTMLDivElement) => {
-    if (textField) {
-      setTimeout(() => {
-        textField.querySelector("input")?.focus();
-      }, 100);
-    }
-  };
+  const focusAmountFieldRef = useRef(null);
+
+  useEffect(() => {
+    // manual auto focus
+    setTimeout(() => {
+      if (focusAmountFieldRef.current) {
+        const inputDiv = focusAmountFieldRef.current as HTMLDivElement;
+        inputDiv.querySelector("input")?.focus();
+      }
+    }, 100);
+  }, []);
 
   const formik = useFormik({
     initialValues,
@@ -131,7 +134,7 @@ const AddExpenseForm = ({
               helperText={formik.touched.amount && formik.errors.amount}
               margin="dense"
               autoFocus={true}
-              ref={focusAmountField}
+              ref={focusAmountFieldRef}
             />
             <TextField
               type="text"

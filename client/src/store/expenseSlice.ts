@@ -59,9 +59,11 @@ export const createExpense = createAsyncThunk(
 
 export const getAllExpenses = createAsyncThunk(
   "auth/getAllExpenses",
-  async (_: undefined, { dispatch }) => {
+  async (params: any, { dispatch }) => {
     try {
-      const response = await apiClient.get(expenseApi.GetALlExpenses);
+      const response = await apiClient.get(expenseApi.GetALlExpenses, {
+        params,
+      });
       return response.data;
     } catch (error) {
       dispatch(logoutUser());
@@ -82,6 +84,7 @@ export const editExpense = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      dispatch(logoutUser());
     } finally {
       dispatch(setLoading(false));
     }
@@ -97,6 +100,7 @@ export const deleteExpense = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      dispatch(logoutUser());
     } finally {
       dispatch(setLoading(false));
     }

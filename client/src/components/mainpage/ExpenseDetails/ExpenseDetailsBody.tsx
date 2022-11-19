@@ -11,7 +11,7 @@ import {
   deleteExpense,
   selectExpense,
 } from "../../../store/expenseSlice";
-import { forwardRef, useState } from "react";
+import { forwardRef, useCallback, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -19,6 +19,8 @@ import EditExpense from "./EditExpense";
 import ExpenseItem from "./ExpenseItem";
 import { TransitionProps } from "@mui/material/transitions";
 import color from "../../../utils/color";
+import dayjs from "dayjs";
+import groupExpenseByDate from "../../../utils/groupExpenseByDate";
 import useAppDispatch from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useMemo } from "react";
@@ -71,6 +73,37 @@ const ExpenseDetailsBody = ({
     );
   }, [bottomNavOffsetHeight, headerOffsetHeight, window.innerHeight]);
 
+  const expensesByDateObj = useMemo(
+    () => groupExpenseByDate(expenseList),
+    [expenseList]
+  );
+
+  const ExpenseListByDateJSX = useCallback(() => {
+    return Object.keys(expensesByDateObj).map((date) => {
+      const formattedDate = dayjs(date).format("MMM DD, dddd");
+      const sumExpense = expensesByDateObj[date].reduce(
+        (acc, expense) => acc + expense.amount,
+        0
+      );
+      return (
+        <section key={date} className="expenses-by-date-section">
+          <p className="expense-details-body-header">
+            <span>{formattedDate}</span>
+            <span>expense: {sumExpense}</span>
+          </p>
+
+          {expensesByDateObj[date].map((expense) => (
+            <ExpenseItem
+              key={expense._id}
+              expense={expense}
+              handleToggle={handleToggle}
+            />
+          ))}
+        </section>
+      );
+    });
+  }, [expensesByDateObj]);
+
   return (
     <>
       <div
@@ -81,17 +114,7 @@ const ExpenseDetailsBody = ({
           height: bodyHeight,
         }}
       >
-        <p className="expense-details-body-header">
-          <span>11.12 Wednesday</span>
-          <span>expense: 190</span>
-        </p>
-        {expenseList.map((expense) => (
-          <ExpenseItem
-            key={expense._id}
-            expense={expense}
-            handleToggle={handleToggle}
-          />
-        ))}
+        {ExpenseListByDateJSX()}
       </div>
 
       <Dialog

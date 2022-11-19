@@ -7,6 +7,7 @@ import {
   MyProfile,
 } from "../components/mainpage";
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { getAllExpenses, selectExpense } from "../store/expenseSlice";
 
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -15,8 +16,9 @@ import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import { getAllExpenses } from "../store/expenseSlice";
+import dayjs from "dayjs";
 import useAppDispatch from "../hooks/useAppDispatch";
+import { useAppSelector } from "../hooks/useAppSelector";
 
 const MainPage = () => {
   const [value, setValue] = useState<string>("details");
@@ -24,6 +26,7 @@ const MainPage = () => {
     number | undefined
   >(0);
   const dispatch = useAppDispatch();
+  const { date } = useAppSelector(selectExpense);
 
   const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -35,10 +38,14 @@ const MainPage = () => {
     setBottomNavOffsetHeight(bottomRef?.current?.offsetHeight);
   }, [bottomRef]);
 
-  // get all expenses
+  // get all expenses by month
   useEffect(() => {
-    dispatch(getAllExpenses());
-  }, []);
+    const params = {
+      month: dayjs(date).month() + 1,
+      year: dayjs(date).year(),
+    };
+    dispatch(getAllExpenses(params));
+  }, [date]);
 
   return (
     <div className="main-page-container">
