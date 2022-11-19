@@ -39,6 +39,7 @@ const getAllExpenses = async (req: UserRequest, res: Response) => {
         ],
       },
     },
+    { $sort: { date: -1 } },
     // {
     //   $group: {
     //     _id: {

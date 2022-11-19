@@ -71,7 +71,7 @@ const ExpenseDetailsBody = ({
       headerOffsetHeight &&
       totalHeight - bottomNavOffsetHeight - headerOffsetHeight
     );
-  }, [bottomNavOffsetHeight, headerOffsetHeight, window.innerHeight]);
+  }, [bottomNavOffsetHeight, headerOffsetHeight]);
 
   const expensesByDateObj = useMemo(
     () => groupExpenseByDate(expenseList),
@@ -82,14 +82,23 @@ const ExpenseDetailsBody = ({
     return Object.keys(expensesByDateObj).map((date) => {
       const formattedDate = dayjs(date).format("MMM DD, dddd");
       const sumExpense = expensesByDateObj[date].reduce(
-        (acc, expense) => acc + expense.amount,
+        (acc, expense) =>
+          expense.type === "expense" ? acc + expense.amount : acc,
+        0
+      );
+
+      const sumIncome = expensesByDateObj[date].reduce(
+        (acc, expense) =>
+          expense.type === "income" ? acc + expense.amount : acc,
         0
       );
       return (
         <section key={date} className="expenses-by-date-section">
           <p className="expense-details-body-header">
             <span>{formattedDate}</span>
-            <span>expense: {sumExpense}</span>
+            <span>
+              {sumIncome !== 0 && `in:${sumIncome}`} out:{sumExpense}
+            </span>
           </p>
 
           {expensesByDateObj[date].map((expense) => (
@@ -102,6 +111,7 @@ const ExpenseDetailsBody = ({
         </section>
       );
     });
+    // eslint-disable-next-line
   }, [expensesByDateObj]);
 
   return (

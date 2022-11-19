@@ -21,7 +21,6 @@ import Tabs from "@mui/material/Tabs";
 import Toolbar from "@mui/material/Toolbar";
 import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
-import _ from "lodash";
 import color from "../../utils/color";
 import { selectExpense } from "../../store/expenseSlice";
 import { useAppSelector } from "../../hooks/useAppSelector";

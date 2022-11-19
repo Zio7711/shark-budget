@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import DatePicker from "../MonthPicker";
 import { DollarLogo } from "../../AllSVGs";
 import ExpenseDetailsBody from "./ExpenseDetailsBody";
 import color from "../../../utils/color";
+import { currencyFormatter } from "../../../utils/currencyFormatter";
+import { selectExpense } from "../../../store/expenseSlice";
+import { useAppSelector } from "../../../hooks/useAppSelector";
 
 interface Props {
   bottomNavOffsetHeight: number | undefined;
@@ -14,6 +17,22 @@ const ExpenseDetails = ({ bottomNavOffsetHeight }: Props) => {
   const [headerOffsetHeight, setHeaderOffsetHeight] = useState<
     number | undefined
   >(0);
+
+  const { expenseList } = useAppSelector(selectExpense);
+
+  const sumExpense = useCallback(
+    (type: "income" | "expense") => {
+      // calculated the total expense and income
+      const sum = expenseList.reduce((acc: number, expense) => {
+        if (expense.type === type) {
+          return acc + expense.amount;
+        }
+        return acc;
+      }, 0);
+      return sum;
+    },
+    [expenseList]
+  );
 
   useEffect(() => {
     setHeaderOffsetHeight(headerRef?.current?.offsetHeight);
@@ -38,11 +57,11 @@ const ExpenseDetails = ({ bottomNavOffsetHeight }: Props) => {
           <div className="summary-right">
             <div>
               <label>Income</label>
-              <p className="price">0.00</p>
+              <p className="price">{sumExpense("income")}</p>
             </div>
             <div>
               <label>Expense</label>
-              <p className="price">190.00</p>
+              <p className="price">{sumExpense("expense")}</p>
             </div>
           </div>
         </div>

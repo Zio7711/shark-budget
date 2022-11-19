@@ -45,7 +45,7 @@ const MainPage = () => {
       year: dayjs(date).year(),
     };
     dispatch(getAllExpenses(params));
-  }, [date]);
+  }, [date, dispatch]);
 
   return (
     <div className="main-page-container">

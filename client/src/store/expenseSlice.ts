@@ -15,7 +15,7 @@ export type Expense = {
   _id: string;
   createdBy: string;
 };
-interface expenseSlice {
+interface ExpenseSlice {
   date: number; // unix timestamp
   isLoading: boolean;
   expenseList: Expense[];
@@ -32,7 +32,7 @@ type ExpenseParam = {
 };
 
 // Define the initial state using that type
-const initialState: expenseSlice = {
+const initialState: ExpenseSlice = {
   date: Date.now(),
   isLoading: false,
   expenseList: [],
@@ -128,7 +128,7 @@ export const expenseSlice = createSlice({
 
     builder.addCase(createExpense.fulfilled, (state, action) => {
       if (action.payload) {
-        state.expenseList.push(action.payload.newExpense);
+        state.expenseList.unshift(action.payload.newExpense);
       }
     });
 
