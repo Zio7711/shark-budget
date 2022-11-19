@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import DatePicker from "../MonthPicker";
 import { DollarLogo } from "../../AllSVGs";
 import ExpenseDetailsBody from "./ExpenseDetailsBody";
+import MonthPicker from "./MonthPicker";
 import color from "../../../utils/color";
 import { currencyFormatter } from "../../../utils/currencyFormatter";
 import { selectExpense } from "../../../store/expenseSlice";
@@ -52,7 +52,7 @@ const ExpenseDetails = ({ bottomNavOffsetHeight }: Props) => {
 
         <div className="summary">
           <div className="date">
-            <DatePicker />
+            <MonthPicker />
           </div>
           <div className="summary-right">
             <div>

@@ -1,9 +1,1 @@
-export default [
-  "salary",
-  "bonus",
-  "gift",
-  "lottery",
-  "investment",
-  "part-time",
-  "other",
-];
+export default ["salary", "bonus", "gifts", "lottery", "investment", "other"];
