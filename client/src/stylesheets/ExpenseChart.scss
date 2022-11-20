@@ -1,0 +1,26 @@
+@import "_variables.scss";
+.expense-chart-header {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  background-color: $main;
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+    0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+  text-align: center;
+
+  .header-sub-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    margin: 1em 1em;
+    align-items: center;
+  }
+}
+
+.expense-chart-body-container {
+  h3 {
+    padding: 0.5em;
+    border-bottom: 1px solid $light-gray;
+  }
+}
