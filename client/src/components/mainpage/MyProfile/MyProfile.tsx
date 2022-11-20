@@ -2,8 +2,10 @@ import { Button } from "@mui/material";
 import apiClient from "../../../api/client";
 import { logoutUser } from "../../../store/authSlice";
 import useAppDispatch from "../../../hooks/useAppDispatch";
-
-const MyProfile = () => {
+interface Props {
+  bottomNavOffsetHeight: number | undefined;
+}
+const MyProfile = ({ bottomNavOffsetHeight }: Props) => {
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logoutUser());

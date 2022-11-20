@@ -26,6 +26,7 @@ import {
   FaShippingFast,
 } from "react-icons/fa";
 import {
+  GiAutoRepair,
   GiBananaBunch,
   GiBroccoli,
   GiMoneyStack,
@@ -69,7 +70,7 @@ const CategoryIconLookUp = ({
     case "restaurant":
       return <IoRestaurantOutline {...iconProps} />;
 
-    case "shopping":
+    case "groceries":
       return <BsCart2 {...iconProps} />;
 
     case "coffee":
@@ -135,8 +136,8 @@ const CategoryIconLookUp = ({
     case "gifts":
       return <AiOutlineGift {...iconProps} />;
 
-    case "stationery":
-      return <BiPencil {...iconProps} />;
+    case "utilities":
+      return <GiAutoRepair {...iconProps} />;
 
     case "repair":
       return <FiTool {...iconProps} />;
@@ -178,10 +179,11 @@ const CategoryIconLookUp = ({
 
 export default CategoryIconLookUp;
 
+// todo: consider types
 export const expenseCategories = [
   "fruit",
   "restaurant",
-  "shopping",
+  "groceries",
   "coffee",
   "transport",
   "veggies",
@@ -204,7 +206,7 @@ export const expenseCategories = [
   "education",
   "books",
   "gifts",
-  "stationery",
+  "utilities",
   "repair",
   "lottery",
   "family",

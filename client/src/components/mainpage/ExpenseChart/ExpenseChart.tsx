@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import ExpenseChartBody from "./ExpenseChartBody";
 import MonthPicker from "../ExpenseDetails/MonthPicker";
@@ -12,11 +12,22 @@ const budgetSchema = yup.object().shape({
   budget: yup.number().required("Budget is required"),
 });
 
-const ExpenseChart = () => {
+interface Props {
+  bottomNavOffsetHeight: number | undefined;
+}
+
+const ExpenseChart = ({ bottomNavOffsetHeight }: Props) => {
   const [budget, setBudget] = useState<number | null>(100);
-  const { expenseList } = useAppSelector(selectExpense);
+  const headerRef = useRef<HTMLDivElement | null>(null);
+
+  const [headerOffsetHeight, setHeaderOffsetHeight] = useState<
+    number | undefined
+  >(0);
   useEffect(() => {
-    console.log(expenseList);
+    setHeaderOffsetHeight(headerRef?.current?.offsetHeight);
+  }, [headerRef]);
+
+  useEffect(() => {
     if (!budget) {
       Swal.fire({
         title: "Please set your monthly budget!",
@@ -38,8 +49,8 @@ const ExpenseChart = () => {
 
   return (
     <div className="expense-chart-container">
-      <div className="expense-chart-header">
-        <h2>Wealth Enhancement</h2>
+      <div className="expense-chart-header" ref={headerRef}>
+        <h2>Expense Chart</h2>
 
         <div className="header-sub-section">
           <MonthPicker />
@@ -47,7 +58,12 @@ const ExpenseChart = () => {
         </div>
       </div>
 
-      <ExpenseChartBody />
+      {headerOffsetHeight && bottomNavOffsetHeight && (
+        <ExpenseChartBody
+          bottomNavOffsetHeight={bottomNavOffsetHeight}
+          headerOffsetHeight={headerOffsetHeight}
+        />
+      )}
     </div>
   );
 };

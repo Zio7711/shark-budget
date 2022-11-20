@@ -1,6 +1,7 @@
-import React from "react";
-
-const BillingStatement = () => {
+interface Props {
+  bottomNavOffsetHeight: number | undefined;
+}
+const BillingStatement = ({ bottomNavOffsetHeight }: Props) => {
   return <div>BillingStatement</div>;
 };
 

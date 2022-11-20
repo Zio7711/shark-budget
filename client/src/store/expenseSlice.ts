@@ -21,6 +21,8 @@ interface ExpenseSlice {
   expenseList: Expense[];
   numOfPages: number;
   page: number;
+  totalExpense: number;
+  totalIncome: number;
 }
 
 type ExpenseParam = {
@@ -38,6 +40,8 @@ const initialState: ExpenseSlice = {
   expenseList: [],
   numOfPages: 1,
   page: 1,
+  totalExpense: 0,
+  totalIncome: 0,
 };
 
 export const createExpense = createAsyncThunk(
@@ -119,6 +123,26 @@ export const expenseSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
+
+    sumExpenseAndIncome: (state) => {
+      // calculated the total expense and income
+      const sumExpense = state.expenseList.reduce((acc: number, expense) => {
+        if (expense.type === "expense") {
+          return acc + expense.amount;
+        }
+        return acc;
+      }, 0);
+
+      const sumIncome = state.expenseList.reduce((acc: number, expense) => {
+        if (expense.type === "income") {
+          return acc + expense.amount;
+        }
+        return acc;
+      }, 0);
+
+      state.totalExpense = sumExpense;
+      state.totalIncome = sumIncome;
+    },
   },
 
   extraReducers: (builder) => {
@@ -170,7 +194,8 @@ export const expenseSlice = createSlice({
   },
 });
 
-export const { updateDate, setLoading } = expenseSlice.actions;
+export const { updateDate, setLoading, sumExpenseAndIncome } =
+  expenseSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value;

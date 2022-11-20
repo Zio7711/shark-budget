@@ -1,11 +1,14 @@
+import {
+  selectExpense,
+  sumExpenseAndIncome,
+} from "../../../store/expenseSlice";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { DollarLogo } from "../../AllSVGs";
 import ExpenseDetailsBody from "./ExpenseDetailsBody";
 import MonthPicker from "./MonthPicker";
 import color from "../../../utils/color";
-import { currencyFormatter } from "../../../utils/currencyFormatter";
-import { selectExpense } from "../../../store/expenseSlice";
+import useAppDispatch from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 
 interface Props {
@@ -14,25 +17,18 @@ interface Props {
 
 const ExpenseDetails = ({ bottomNavOffsetHeight }: Props) => {
   const headerRef = useRef<HTMLDivElement | null>(null);
+  const dispatch = useAppDispatch();
+
   const [headerOffsetHeight, setHeaderOffsetHeight] = useState<
     number | undefined
   >(0);
 
-  const { expenseList } = useAppSelector(selectExpense);
+  const { expenseList, totalExpense, totalIncome } =
+    useAppSelector(selectExpense);
 
-  const sumExpense = useCallback(
-    (type: "income" | "expense") => {
-      // calculated the total expense and income
-      const sum = expenseList.reduce((acc: number, expense) => {
-        if (expense.type === type) {
-          return acc + expense.amount;
-        }
-        return acc;
-      }, 0);
-      return sum;
-    },
-    [expenseList]
-  );
+  useEffect(() => {
+    dispatch(sumExpenseAndIncome());
+  }, [expenseList]);
 
   useEffect(() => {
     setHeaderOffsetHeight(headerRef?.current?.offsetHeight);
@@ -57,11 +53,11 @@ const ExpenseDetails = ({ bottomNavOffsetHeight }: Props) => {
           <div className="summary-right">
             <div>
               <label>Income</label>
-              <p className="price">{sumExpense("income")}</p>
+              <p className="price">{totalIncome}</p>
             </div>
             <div>
               <label>Expense</label>
-              <p className="price">{sumExpense("expense")}</p>
+              <p className="price">{totalExpense}</p>
             </div>
           </div>
         </div>

@@ -52,9 +52,15 @@ const MainPage = () => {
       {value === "details" && (
         <ExpenseDetails bottomNavOffsetHeight={bottomNavOffsetHeight} />
       )}
-      {value === "billing" && <BillingStatement />}
-      {value === "chart" && <ExpenseChart />}
-      {value === "me" && <MyProfile />}
+      {value === "chart" && (
+        <ExpenseChart bottomNavOffsetHeight={bottomNavOffsetHeight} />
+      )}
+      {value === "billing" && (
+        <BillingStatement bottomNavOffsetHeight={bottomNavOffsetHeight} />
+      )}
+      {value === "me" && (
+        <MyProfile bottomNavOffsetHeight={bottomNavOffsetHeight} />
+      )}
 
       <div className="bottom-nav-container" ref={bottomRef}>
         <BottomNavigation
@@ -69,9 +75,9 @@ const MainPage = () => {
             icon={<ArticleOutlinedIcon />}
           />
           <BottomNavigationAction
-            label="Billing"
-            value="billing"
-            icon={<AccountBalanceOutlinedIcon />}
+            label="Chart"
+            value="chart"
+            icon={<PieChartOutlineOutlinedIcon />}
           />
         </BottomNavigation>
 
@@ -84,10 +90,11 @@ const MainPage = () => {
           onChange={handleChangeTab}
         >
           <BottomNavigationAction
-            label="Chart"
-            value="chart"
-            icon={<PieChartOutlineOutlinedIcon />}
+            label="Billing"
+            value="billing"
+            icon={<AccountBalanceOutlinedIcon />}
           />
+
           <BottomNavigationAction
             label="Me"
             value="me"

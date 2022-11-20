@@ -1,4 +1,8 @@
 @import "_variables.scss";
+
+.expense-chart-container {
+  overflow: hidden;
+}
 .expense-chart-header {
   display: flex;
   flex-direction: column;
@@ -7,6 +11,9 @@
   box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
     0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
   text-align: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
 
   .header-sub-section {
     display: flex;
@@ -19,8 +26,26 @@
 }
 
 .expense-chart-body-container {
+  padding-bottom: 1em;
   h3 {
     padding: 0.5em;
     border-bottom: 1px solid $light-gray;
+  }
+}
+
+.expense-ranking-container {
+  padding-left: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  .ranking-item-right {
+    flex: 1;
+    padding: 0.5em 1em;
+  }
+
+  .ranking-item-right-top {
+    display: flex;
+    justify-content: space-between;
   }
 }
