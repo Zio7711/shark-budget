@@ -15,33 +15,39 @@ export interface User {
   password: string;
   createJWT: () => void;
   comparePassword: (enteredPassword: string) => Promise<boolean>;
+  createdAt: Date;
 }
 
-const UserSchema = new mongoose.Schema<User>({
-  name: {
-    type: String,
-    required: [true, "Please provide a name."],
-    minLength: 3,
-    maxLength: 20,
-    trim: true,
-  },
-  email: {
-    type: String,
-    required: [true, "Please provide an email."],
-    unique: true,
-    trim: true,
-    validate: {
-      validator: validator.isEmail,
-      message: "Please provide a valid email.",
+const UserSchema = new mongoose.Schema<User>(
+  {
+    name: {
+      type: String,
+      required: [true, "Please provide a name."],
+      minLength: 3,
+      maxLength: 20,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: [true, "Please provide an email."],
+      unique: true,
+      trim: true,
+      validate: {
+        validator: validator.isEmail,
+        message: "Please provide a valid email.",
+      },
+    },
+    password: {
+      type: String,
+      required: [true, "Please provide a password."],
+      minLength: 6,
+      select: false,
     },
   },
-  password: {
-    type: String,
-    required: [true, "Please provide a password."],
-    minLength: 6,
-    select: false,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 UserSchema.pre("save", async function () {
   if (!this.isModified("password")) return;

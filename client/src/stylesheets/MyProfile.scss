@@ -1,0 +1,60 @@
+@import "_variables.scss";
+
+.my-profile-container {
+  overflow: hidden;
+  .my-profile-header {
+    padding: 0.5em;
+    background-color: $main;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+    .header-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-left: 1em;
+      padding-top: 1em;
+
+      .header-right {
+        display: flex;
+        flex: 1;
+        div {
+          flex: 1;
+        }
+
+        label {
+          font-size: 1.5em;
+        }
+      }
+
+      .my-profile-avatar {
+        border-radius: 50%;
+      }
+
+      .my-profile-name {
+        text-transform: capitalize;
+        margin-top: 0.3em;
+      }
+    }
+  }
+}
+
+.my-profile-body-container {
+  background-color: $light-gray;
+  height: 80vh;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .my-profile-body-card {
+    margin-bottom: 1em;
+    border-radius: 0.3em;
+  }
+
+  .logout-button {
+    width: 50%;
+  }
+}

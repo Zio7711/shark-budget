@@ -2,7 +2,7 @@ import {
   selectExpense,
   sumExpenseAndIncome,
 } from "../../../store/expenseSlice";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { DollarLogo } from "../../AllSVGs";
 import ExpenseDetailsBody from "./ExpenseDetailsBody";
@@ -28,7 +28,7 @@ const ExpenseDetails = ({ bottomNavOffsetHeight }: Props) => {
 
   useEffect(() => {
     dispatch(sumExpenseAndIncome());
-  }, [expenseList]);
+  }, [expenseList, dispatch]);
 
   useEffect(() => {
     setHeaderOffsetHeight(headerRef?.current?.offsetHeight);

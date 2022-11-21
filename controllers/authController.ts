@@ -23,9 +23,10 @@ const register = async (req: Request, res: Response) => {
   const user = await User.create({ name, email, password });
   const token = user.createJWT();
 
-  res
-    .status(StatusCodes.OK)
-    .json({ user: { email: user.email, name: user.name }, token });
+  res.status(StatusCodes.OK).json({
+    user: { email: user.email, name: user.name, createdAt: user.createdAt },
+    token,
+  });
 };
 
 const login = async (req: Request, res: Response) => {
@@ -47,9 +48,10 @@ const login = async (req: Request, res: Response) => {
   }
 
   const token = user.createJWT();
-  res
-    .status(StatusCodes.OK)
-    .json({ user: { email: user.email, name: user.name }, token });
+  res.status(StatusCodes.OK).json({
+    user: { email: user.email, name: user.name, createdAt: user.createdAt },
+    token,
+  });
 };
 
 const updateUser = async (req: UserRequest, res: Response) => {
@@ -64,9 +66,10 @@ const updateUser = async (req: UserRequest, res: Response) => {
     user.name = name;
     await user.save();
     const token = user.createJWT();
-    res
-      .status(StatusCodes.OK)
-      .json({ user: { email: user.email, name }, token });
+    res.status(StatusCodes.OK).json({
+      user: { email: user.email, name, createdAt: user.createdAt },
+      token,
+    });
   }
 };
 

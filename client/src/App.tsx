@@ -1,5 +1,5 @@
-import { BillingPage, ErrorPage, LandingPage, RegisterPage } from "./pages";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ErrorPage, LandingPage, RegisterPage } from "./pages";
 
 import MainPage from "./pages/MainPage";
 import ProtectedRoute from "./pages/ProtectedRoute";

@@ -34,7 +34,7 @@ const ExpenseRanking = ({ categoryObj, mostExpense }: Props) => {
 
   const expensePercentage = useMemo(
     () => round((categoryObj.value / totalExpense) * 100, 2),
-    [totalExpense]
+    [totalExpense, categoryObj.value]
   );
 
   return (

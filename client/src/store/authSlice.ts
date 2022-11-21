@@ -12,7 +12,7 @@ import { authApi } from "../api";
 // Define a type for the slice state
 interface AuthState {
   isLoading: boolean;
-  user: { name: string; email: string } | null;
+  user: { name: string; email: string; createdAt: number } | null;
   token: string | null;
   email: string | null;
 }
@@ -77,7 +77,7 @@ export const authSlice = createSlice({
     registerUserFulfilled: (
       state,
       action: PayloadAction<{
-        user: { name: string; email: string };
+        user: { name: string; email: string; createdAt: number };
         token: string;
       }>
     ) => {
@@ -101,7 +101,7 @@ export const authSlice = createSlice({
     loginUserFulfilled: (
       state,
       action: PayloadAction<{
-        user: { name: string; email: string };
+        user: { name: string; email: string; createdAt: number };
         token: string;
       }>
     ) => {

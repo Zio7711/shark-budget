@@ -11,7 +11,6 @@ import {
   BiBookOpen,
   BiBuildingHouse,
   BiCookie,
-  BiPencil,
   BiWine,
 } from "react-icons/bi";
 import { BsCart2, BsPhone } from "react-icons/bs";

@@ -5,8 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import ExpenseChartBody from "./ExpenseChartBody";
 import MonthPicker from "../ExpenseDetails/MonthPicker";
 import Swal from "sweetalert2";
-import { selectExpense } from "../../../store/expenseSlice";
-import { useAppSelector } from "../../../hooks/useAppSelector";
 
 const budgetSchema = yup.object().shape({
   budget: yup.number().required("Budget is required"),
@@ -45,6 +43,7 @@ const ExpenseChart = ({ bottomNavOffsetHeight }: Props) => {
         },
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
