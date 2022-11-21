@@ -2,11 +2,11 @@
 
 .billing-statement-container {
   overflow: hidden;
-  text-align: center;
 }
 
 .billing-statement-header {
   padding: 0.5em;
+  text-align: center;
 
   background-color: $main;
   position: fixed;
@@ -60,4 +60,9 @@
 .billing-statement-body-container {
   background-color: $light-gray;
   padding: 1em;
+
+  .budget-rule-card-chart {
+    display: flex;
+    margin-top: 1em;
+  }
 }

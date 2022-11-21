@@ -45,11 +45,7 @@
 
 .my-profile-body-container {
   background-color: $light-gray;
-  height: 80vh;
   padding: 1em;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 
   .my-profile-body-card {
     margin-bottom: 1em;
@@ -58,5 +54,8 @@
 
   .logout-button {
     width: 50%;
+    display: flex;
+    margin: auto;
+    margin-top: 1.5em;
   }
 }
