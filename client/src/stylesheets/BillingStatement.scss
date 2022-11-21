@@ -1,0 +1,63 @@
+@import "variables";
+
+.billing-statement-container {
+  overflow: hidden;
+  text-align: center;
+}
+
+.billing-statement-header {
+  padding: 0.5em;
+
+  background-color: $main;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+    0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+
+  .summary {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    margin-top: 0.5em;
+
+    .date {
+      flex: 1;
+      text-align: center;
+
+      .css-154zt4g-MuiButtonBase-root-MuiButton-root {
+        font-size: 0.9em;
+        padding: 0.4em;
+      }
+    }
+
+    .summary-right {
+      padding-left: 0.8em;
+      flex: 3;
+      display: flex;
+
+      div {
+        flex: 1;
+        .price,
+        label {
+          margin: 0.5em;
+        }
+
+        .price {
+          font-weight: 600;
+          font-size: 1.4em;
+        }
+
+        label {
+          color: $gray;
+        }
+      }
+    }
+  }
+}
+
+.billing-statement-body-container {
+  background-color: $light-gray;
+  padding: 1em;
+}
