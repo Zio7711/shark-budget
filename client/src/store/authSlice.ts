@@ -12,7 +12,7 @@ import { authApi } from "../api";
 // Define a type for the slice state
 interface AuthState {
   isLoading: boolean;
-  user: string | null;
+  user: { name: string; email: string } | null;
   token: string | null;
   email: string | null;
 }
@@ -82,7 +82,7 @@ export const authSlice = createSlice({
       }>
     ) => {
       const { user, token } = action.payload;
-      state.user = user.name;
+      state.user = user;
       state.email = user.email;
       state.token = token;
 
@@ -106,7 +106,7 @@ export const authSlice = createSlice({
       }>
     ) => {
       const { user, token } = action.payload;
-      state.user = user.name;
+      state.user = user;
       state.email = user.email;
       state.token = token;
 
