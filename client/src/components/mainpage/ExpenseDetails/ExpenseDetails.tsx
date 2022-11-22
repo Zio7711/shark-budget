@@ -1,13 +1,10 @@
-import {
-  selectExpense,
-  sumExpenseAndIncome,
-} from "../../../store/expenseSlice";
 import { useEffect, useRef, useState } from "react";
 
 import { DollarLogo } from "../../AllSVGs";
 import ExpenseDetailsBody from "./ExpenseDetailsBody";
 import MonthPicker from "./MonthPicker";
 import color from "../../../utils/color";
+import { selectExpense } from "../../../store/expenseSlice";
 import useAppDispatch from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 
@@ -25,10 +22,6 @@ const ExpenseDetails = ({ bottomNavOffsetHeight }: Props) => {
 
   const { expenseList, totalExpense, totalIncome } =
     useAppSelector(selectExpense);
-
-  useEffect(() => {
-    dispatch(sumExpenseAndIncome());
-  }, [expenseList, dispatch]);
 
   useEffect(() => {
     setHeaderOffsetHeight(headerRef?.current?.offsetHeight);

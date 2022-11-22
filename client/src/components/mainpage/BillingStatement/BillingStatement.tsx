@@ -65,7 +65,7 @@ const BillingStatement = ({ bottomNavOffsetHeight }: Props) => {
               <p className="price">{budget}</p>
             </div>
             <div>
-              <label>Saving</label>
+              <label>Savings</label>
               <p className="price">{totalIncome - totalExpense}</p>
             </div>
           </div>
@@ -76,6 +76,7 @@ const BillingStatement = ({ bottomNavOffsetHeight }: Props) => {
         <BillingStatementBody
           bottomNavOffsetHeight={bottomNavOffsetHeight}
           headerOffsetHeight={headerOffsetHeight}
+          budget={budget}
         />
       )}
     </div>

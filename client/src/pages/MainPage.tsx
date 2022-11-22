@@ -7,7 +7,11 @@ import {
   MyProfile,
 } from "../components/mainpage";
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
-import { getAllExpenses, selectExpense } from "../store/expenseSlice";
+import {
+  getAllExpenses,
+  selectExpense,
+  sumExpenseAndIncome,
+} from "../store/expenseSlice";
 
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -26,7 +30,7 @@ const MainPage = () => {
     number | undefined
   >(0);
   const dispatch = useAppDispatch();
-  const { date } = useAppSelector(selectExpense);
+  const { date, expenseList } = useAppSelector(selectExpense);
 
   const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -46,6 +50,10 @@ const MainPage = () => {
     };
     dispatch(getAllExpenses(params));
   }, [date, dispatch]);
+
+  useEffect(() => {
+    dispatch(sumExpenseAndIncome());
+  }, [expenseList, dispatch]);
 
   return (
     <div className="main-page-container">
