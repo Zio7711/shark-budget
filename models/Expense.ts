@@ -1,8 +1,8 @@
 import mongoose, { PopulatedDoc } from "mongoose";
 
-import { User } from "./User";
-import expenseCategories from "./expenseCategories";
-import incomeCategories from "./incomeCategories";
+import { User } from "./User.js";
+import expenseCategories from "./expenseCategories.js";
+import incomeCategories from "./incomeCategories.js";
 
 interface Expense {
   category: string;

@@ -1,10 +1,10 @@
-import { BadRequestError, NotFoundError } from "../errors";
+import { BadRequestError, NotFoundError } from "../errors/index.js";
 
-import Expense from "../models/Expense";
+import Expense from "../models/Expense.js";
 import { Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { UserRequest } from "./../middleware/auth";
-import checkPermissions from "../utils/checkPermissions";
+import { UserRequest } from "./../middleware/auth.js";
+import checkPermissions from "../utils/checkPermissions.js";
 import mongoose from "mongoose";
 
 const createExpense = async (req: UserRequest, res: Response) => {

@@ -1,8 +1,8 @@
-import { BadRequestError, UnauthenticatedError } from "../errors";
+import { BadRequestError, UnauthenticatedError } from "../errors/index.js";
 import { Request, Response } from "express";
 
 import { StatusCodes } from "http-status-codes";
-import User from "../models/User";
+import User from "../models/User.js";
 import { UserRequest } from "./../middleware/auth";
 
 const register = async (req: Request, res: Response) => {

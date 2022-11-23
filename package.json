@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
+  "homepage": "/landing",
   "scripts": {
+    "build-client":"cd client && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/server.js",
     "server": "npx nodemon dist/server.js --ignore client",

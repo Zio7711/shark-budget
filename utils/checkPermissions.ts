@@ -1,4 +1,4 @@
-import { UnauthenticatedError } from "../errors";
+import { UnauthenticatedError } from "../errors/index.js";
 
 const checkPermissions = (requestUser: any, resourceUserId: number) => {
   if (requestUser === resourceUserId.toString()) return;

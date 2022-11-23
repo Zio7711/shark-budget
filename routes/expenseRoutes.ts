@@ -4,7 +4,7 @@ import {
   getAllExpenses,
   getExpense,
   updateExpense,
-} from "../controllers/expenseController";
+} from "../controllers/expenseController.js";
 
 import express from "express";
 
