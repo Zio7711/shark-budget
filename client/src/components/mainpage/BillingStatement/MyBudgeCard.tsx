@@ -69,9 +69,13 @@ const MyBudgeCard = ({ budget }: Props) => {
   }, [budget, totalExpense]);
 
   const savingsPercentage = useMemo(() => {
-    return (savings / budgetAmountCalc("savings")) * 100 > 100
-      ? 100
-      : round((savings / budgetAmountCalc("savings")) * 100, 2);
+    if (savings > 0) {
+      return (savings / budgetAmountCalc("savings")) * 100 > 100
+        ? 100
+        : round((savings / budgetAmountCalc("savings")) * 100, 2);
+    } else {
+      return 0;
+    }
   }, [budget, totalExpense]);
 
   return (

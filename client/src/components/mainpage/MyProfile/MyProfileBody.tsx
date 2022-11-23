@@ -1,6 +1,8 @@
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import MyBudgeCard from "../BillingStatement/MyBudgeCard";
+import MyStatementCard from "../BillingStatement/MyStatementCard";
 import Typography from "@mui/material/Typography";
 import { logoutUser } from "../../../store/authSlice";
 import useAppDispatch from "../../../hooks/useAppDispatch";
@@ -37,18 +39,12 @@ const MyProfileBody = ({
         height: bodyHeight,
       }}
     >
-      <Card className="my-profile-body-card">
-        <CardContent>
-          <Typography gutterBottom variant="h6" component="div">
-            Billing Statement
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptile
-          </Typography>
-        </CardContent>
-      </Card>
+      <MyStatementCard />
 
-      <Card className="my-profile-body-card">
+      {/* //todo change the budget below */}
+      <MyBudgeCard budget={10000} />
+
+      {/* <Card className="my-profile-body-card">
         <CardContent>
           <Typography gutterBottom variant="h6" component="div">
             Budget Summary
@@ -57,18 +53,7 @@ const MyProfileBody = ({
             Lizards are a widespread group of squamate reptile
           </Typography>
         </CardContent>
-      </Card>
-
-      <Card className="my-profile-body-card">
-        <CardContent>
-          <Typography gutterBottom variant="h6" component="div">
-            Budget Summary
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptile
-          </Typography>
-        </CardContent>
-      </Card>
+      </Card> */}
 
       <Button
         variant="contained"

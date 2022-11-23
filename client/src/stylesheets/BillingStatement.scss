@@ -66,60 +66,62 @@
     margin-top: 1em;
   }
 
-  .billing-statement-card {
-    margin-bottom: 1em;
-    border-radius: 0.3em;
-  }
-
   .budget-rule-list {
     color: $gray;
     li {
       margin-bottom: 1em;
     }
   }
+}
 
-  .statement-card-info {
-    display: flex;
-    align-items: center;
-    span {
-      border-right: 1px solid $gray;
-      padding-right: 0.5em;
-    }
+// billing statement card
+.billing-statement-card {
+  margin-bottom: 1em;
+  border-radius: 0.3em;
+}
 
-    .css-e53awj-MuiStack-root {
-      flex: 1;
-      padding-left: 0.5em;
-      justify-content: space-around;
-    }
-
-    .card-info-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      p {
-        margin: 0.5em 0;
-        color: $gray;
-      }
-    }
+.statement-card-info {
+  display: flex;
+  align-items: center;
+  span {
+    border-right: 1px solid $gray;
+    padding-right: 0.5em;
   }
 
-  .my-budget-desc {
+  .css-e53awj-MuiStack-root {
+    flex: 1;
+    padding-left: 0.5em;
+    justify-content: space-around;
+  }
+
+  .card-info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
     p {
-      font-size: 0.8em;
-      text-align: end;
+      margin: 0.5em 0;
+      color: $gray;
     }
   }
+}
 
-  .my-budget-info {
-    display: flex;
-    align-items: center;
-    margin: 0.5em 0;
+// my budget card
+.my-budget-desc {
+  p {
+    font-size: 0.8em;
+    text-align: end;
+  }
+}
 
-    .css-yl95ka-MuiLinearProgress-root.MuiLinearProgress-colorPrimary {
-      flex: 1;
-      margin-left: 0.5em;
-    }
+.my-budget-info {
+  display: flex;
+  align-items: center;
+  margin: 0.5em 0;
+
+  .css-yl95ka-MuiLinearProgress-root.MuiLinearProgress-colorPrimary {
+    flex: 1;
+    margin-left: 0.5em;
   }
 }
