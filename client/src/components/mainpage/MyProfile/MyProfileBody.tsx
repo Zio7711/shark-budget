@@ -70,17 +70,6 @@ const MyProfileBody = ({
         </CardContent>
       </Card>
 
-      <Card className="my-profile-body-card">
-        <CardContent>
-          <Typography gutterBottom variant="h6" component="div">
-            Budget Summary
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptile
-          </Typography>
-        </CardContent>
-      </Card>
-
       <Button
         variant="contained"
         onClick={handleLogout}

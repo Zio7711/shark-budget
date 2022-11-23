@@ -35,7 +35,7 @@ const BudgetRuleCard = ({ budget }: Props) => {
             <Legend />
           </PieChart>
 
-          <Typography variant="body2" color="text.secondary">
+          <div className="budget-rule-list">
             <ul>
               <li>
                 50% on needs: Groceries, Housing, Utilities, Insurance, Car
@@ -45,7 +45,7 @@ const BudgetRuleCard = ({ budget }: Props) => {
 
               <li>20% on savings</li>
             </ul>
-          </Typography>
+          </div>
         </div>
       </CardContent>
     </Card>

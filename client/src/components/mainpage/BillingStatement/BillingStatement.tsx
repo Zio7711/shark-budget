@@ -18,7 +18,7 @@ interface Props {
 
 const BillingStatement = ({ bottomNavOffsetHeight }: Props) => {
   const headerRef = useRef<HTMLDivElement | null>(null);
-  const [budget, setBudget] = useState<number | null>(10);
+  const [budget, setBudget] = useState<number | null>(10000);
 
   const [headerOffsetHeight, setHeaderOffsetHeight] = useState<
     number | undefined

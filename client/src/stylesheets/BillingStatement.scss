@@ -71,6 +71,13 @@
     border-radius: 0.3em;
   }
 
+  .budget-rule-list {
+    color: $gray;
+    li {
+      margin-bottom: 1em;
+    }
+  }
+
   .statement-card-info {
     display: flex;
     align-items: center;
@@ -95,6 +102,24 @@
         margin: 0.5em 0;
         color: $gray;
       }
+    }
+  }
+
+  .my-budget-desc {
+    p {
+      font-size: 0.8em;
+      text-align: end;
+    }
+  }
+
+  .my-budget-info {
+    display: flex;
+    align-items: center;
+    margin: 0.5em 0;
+
+    .css-yl95ka-MuiLinearProgress-root.MuiLinearProgress-colorPrimary {
+      flex: 1;
+      margin-left: 0.5em;
     }
   }
 }

@@ -35,7 +35,7 @@ const BillingStatementBody = ({
     >
       <MyStatementCard />
       <BudgetRuleCard budget={budget} />
-      <MyBudgeCard />
+      <MyBudgeCard budget={budget} />
     </div>
   );
 };

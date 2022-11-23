@@ -30,34 +30,38 @@ export const sumExpenseByCategory = (
 //todo: add type
 export const expenseAllocation = (expenses: Expense[]) => {
   const expenseAllocationObj = {
-    investment: 0,
-    insurance: 0,
-    daily: 0,
-    pension: 0,
+    needs: 0,
+    wants: 0,
   };
 
   const expensesByCategory = sumExpenseByCategory(expenses);
 
   for (const category in expensesByCategory) {
-    const INVESTMENT = ["investment", "education", "books"];
-    const INSURANCE = ["insurance"];
-    const PENSION = ["pension"];
+    const needs = [
+      "fruit",
+      "groceries",
+      "transport",
+      "veggies",
+      "comm",
+      "rent",
+      "utilities",
+      "repair",
+      "family",
+      "kids",
+      "car",
+      "medical",
+      "education",
+    ];
+
+    const wants = ["insurance"];
 
     switch (true) {
-      case INVESTMENT.includes(category):
-        expenseAllocationObj.investment += expensesByCategory[category];
-        break;
-
-      case INSURANCE.includes(category):
-        expenseAllocationObj.insurance += expensesByCategory[category];
-        break;
-
-      case PENSION.includes(category):
-        expenseAllocationObj.pension += expensesByCategory[category];
+      case needs.includes(category):
+        expenseAllocationObj.needs += expensesByCategory[category];
         break;
 
       default:
-        expenseAllocationObj.daily += expensesByCategory[category];
+        expenseAllocationObj.wants += expensesByCategory[category];
         break;
     }
   }
