@@ -16,6 +16,7 @@ export interface User {
   createJWT: () => void;
   comparePassword: (enteredPassword: string) => Promise<boolean>;
   createdAt: Date;
+  budget: number;
 }
 
 const UserSchema = new mongoose.Schema<User>(
@@ -42,6 +43,10 @@ const UserSchema = new mongoose.Schema<User>(
       required: [true, "Please provide a password."],
       minLength: 6,
       select: false,
+    },
+    budget: {
+      type: Number,
+      default: 0,
     },
   },
   {

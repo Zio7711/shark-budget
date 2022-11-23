@@ -9,10 +9,17 @@ import Swal from "sweetalert2";
 import apiClient from "../api/client";
 import { authApi } from "../api";
 
+type User = {
+  name: string;
+  email: string;
+  createdAt: number;
+  budget: number;
+};
+
 // Define a type for the slice state
 interface AuthState {
   isLoading: boolean;
-  user: { name: string; email: string; createdAt: number } | null;
+  user: User | null;
   token: string | null;
   email: string | null;
 }
@@ -65,6 +72,20 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "auth/updateUser",
+  async (params: any, { dispatch }) => {
+    try {
+      const response = await apiClient.patch(authApi.UpdateUserUrl, params);
+      // dispatch(loginUserFulfilled(response.data));
+      return response.data;
+    } catch (error) {
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   // `createSlice` will infer the state type from the `initialState` argument
@@ -77,7 +98,7 @@ export const authSlice = createSlice({
     registerUserFulfilled: (
       state,
       action: PayloadAction<{
-        user: { name: string; email: string; createdAt: number };
+        user: User;
         token: string;
       }>
     ) => {
@@ -101,7 +122,7 @@ export const authSlice = createSlice({
     loginUserFulfilled: (
       state,
       action: PayloadAction<{
-        user: { name: string; email: string; createdAt: number };
+        user: User;
         token: string;
       }>
     ) => {
@@ -136,6 +157,17 @@ export const authSlice = createSlice({
 
     builder.addCase(loginUser.pending, (state) => {
       state.isLoading = true;
+    });
+
+    builder.addCase(updateUser.pending, (state) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      const { user, token } = action.payload;
+      state.user = user;
+      state.email = user.email;
+      state.token = token;
     });
   },
 });

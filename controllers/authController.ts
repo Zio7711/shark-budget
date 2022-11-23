@@ -55,19 +55,25 @@ const login = async (req: Request, res: Response) => {
 };
 
 const updateUser = async (req: UserRequest, res: Response) => {
-  const { name } = req.body;
-  if (!name) {
+  const { name, budget } = req.body;
+  if (!name && !budget) {
     throw new BadRequestError("Please provide all values");
   }
 
   const user = await User.findByIdAndUpdate({ _id: req.user?.userId });
 
   if (user) {
-    user.name = name;
+    if (name) user.name = name;
+    if (budget) user.budget = budget;
     await user.save();
     const token = user.createJWT();
     res.status(StatusCodes.OK).json({
-      user: { email: user.email, name, createdAt: user.createdAt },
+      user: {
+        email: user.email,
+        name: user.name,
+        createdAt: user.createdAt,
+        budget: user.budget,
+      },
       token,
     });
   }

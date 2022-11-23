@@ -42,7 +42,7 @@ const MyProfileBody = ({
       <MyStatementCard />
 
       {/* //todo change the budget below */}
-      <MyBudgeCard budget={10000} />
+      <MyBudgeCard />
 
       {/* <Card className="my-profile-body-card">
         <CardContent>

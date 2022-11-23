@@ -1,14 +1,17 @@
 import * as yup from "yup";
 
-import { useEffect, useRef, useState } from "react";
+import { selectAuth, updateUser } from "../../../store/authSlice";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import AppBackDrop from "../../AppBackDrop";
 import BillingStatementBody from "./BillingStatementBody";
 import MonthPicker from "../ExpenseDetails/MonthPicker";
 import Swal from "sweetalert2";
 import { selectExpense } from "../../../store/expenseSlice";
+import useAppDispatch from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 
-const budgetSchema = yup.object().shape({
+export const budgetSchema = yup.object().shape({
   budget: yup.number().required("Budget is required"),
 });
 
@@ -18,7 +21,7 @@ interface Props {
 
 const BillingStatement = ({ bottomNavOffsetHeight }: Props) => {
   const headerRef = useRef<HTMLDivElement | null>(null);
-  const [budget, setBudget] = useState<number | null>(0);
+  // const [budget, setBudget] = useState<number | null>(0);
 
   const [headerOffsetHeight, setHeaderOffsetHeight] = useState<
     number | undefined
@@ -28,6 +31,9 @@ const BillingStatement = ({ bottomNavOffsetHeight }: Props) => {
   }, [headerRef]);
 
   const { totalExpense, totalIncome } = useAppSelector(selectExpense);
+  const { user, isLoading } = useAppSelector(selectAuth);
+  const budget = useMemo(() => user?.budget || 0, [user]);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!budget) {
@@ -36,19 +42,45 @@ const BillingStatement = ({ bottomNavOffsetHeight }: Props) => {
         input: "number",
         confirmButtonText: "OK",
         allowOutsideClick: false,
-        preConfirm: (budget) => {
-          budgetSchema.validate({ budget }).catch((err) => {
-            Swal.showValidationMessage("Please enter a valid budget");
-          });
+        preConfirm: async (budget) => {
+          const result = await budgetSchema
+            .validate({ budget })
+            .catch((err) => {
+              Swal.showValidationMessage("Please enter a valid budget");
+            });
 
-          setBudget(Number(budget));
-
-          return budget;
+          if (result) {
+            dispatch(updateUser({ budget: Number(budget) }));
+            return budget;
+          } else {
+            return false;
+          }
         },
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const updateBudget = useCallback(() => {
+    Swal.fire({
+      title: "Please update your monthly budget!",
+      input: "number",
+      confirmButtonText: "Save",
+      allowOutsideClick: true,
+      preConfirm: async (budget) => {
+        const result = await budgetSchema.validate({ budget }).catch((err) => {
+          Swal.showValidationMessage("Please enter a valid budget");
+        });
+
+        if (result) {
+          dispatch(updateUser({ budget: Number(budget) }));
+          return budget;
+        } else {
+          return false;
+        }
+      },
+    });
+  }, [dispatch]);
 
   return (
     <div className="billing-statement-container">
@@ -60,7 +92,7 @@ const BillingStatement = ({ bottomNavOffsetHeight }: Props) => {
             <MonthPicker />
           </div>
           <div className="summary-right">
-            <div>
+            <div onClick={updateBudget}>
               <label>Budget</label>
               <p className="price">{budget}</p>
             </div>
@@ -79,6 +111,8 @@ const BillingStatement = ({ bottomNavOffsetHeight }: Props) => {
           budget={budget}
         />
       )}
+
+      <AppBackDrop open={isLoading} />
     </div>
   );
 };
