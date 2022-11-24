@@ -2,11 +2,12 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 const apiClient = axios.create({
-  // baseURL: "http://localhost:4000/api/v1",
-  baseURL: "http://192.168.3.108:4000/api/v1",
+  baseURL: "http://localhost:4000/api/v1",
+  // baseURL: "http://192.168.3.108:4000/api/v1",
   // timeout: 1000,
 });
-
+// allow cookies to be sent to the server
+apiClient.defaults.withCredentials = true;
 // Add a request interceptor
 apiClient.interceptors.request.use(
   (config) => {

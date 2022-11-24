@@ -13,9 +13,14 @@ const authenticateUser = (
   next: NextFunction
 ) => {
   // Do something
-  const headers = req.headers;
-  const token = headers.authorization;
-  if (!token || !token.startsWith("Bearer")) {
+  // const headers = req.headers;
+  // const token = headers.authorization;
+  // if (!token || !token.startsWith("Bearer")) {
+  //   throw new UnauthenticatedError("Authentication failed");
+  // }
+
+  const token = req.cookies.token;
+  if (!token) {
     throw new UnauthenticatedError("Authentication failed");
   }
 

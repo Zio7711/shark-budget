@@ -3,7 +3,8 @@ import { Request, Response } from "express";
 
 import { StatusCodes } from "http-status-codes";
 import User from "../models/User.js";
-import { UserRequest } from "./../middleware/auth";
+import { UserRequest } from "./../middleware/auth.js";
+import attachCookies from "../utils/attachCookies.js";
 
 const register = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
@@ -23,9 +24,10 @@ const register = async (req: Request, res: Response) => {
   const user = await User.create({ name, email, password });
   const token = user.createJWT();
 
+  attachCookies({ res, token });
+
   res.status(StatusCodes.OK).json({
     user: { email: user.email, name: user.name, createdAt: user.createdAt },
-    token,
   });
 };
 
@@ -48,9 +50,10 @@ const login = async (req: Request, res: Response) => {
   }
 
   const token = user.createJWT();
+  attachCookies({ res, token });
+
   res.status(StatusCodes.OK).json({
     user: { email: user.email, name: user.name, createdAt: user.createdAt },
-    token,
   });
 };
 
@@ -67,6 +70,8 @@ const updateUser = async (req: UserRequest, res: Response) => {
     if (budget) user.budget = budget;
     await user.save();
     const token = user.createJWT();
+    attachCookies({ res, token });
+
     res.status(StatusCodes.OK).json({
       user: {
         email: user.email,
@@ -74,7 +79,6 @@ const updateUser = async (req: UserRequest, res: Response) => {
         createdAt: user.createdAt,
         budget: user.budget,
       },
-      token,
     });
   }
 };
