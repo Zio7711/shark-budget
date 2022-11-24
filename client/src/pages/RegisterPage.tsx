@@ -48,9 +48,9 @@ const RegisterPage: React.FC = () => {
 
   useEffect(() => {
     if (auth.user) {
-      setTimeout(() => {
-        navigate("/");
-      }, 1800);
+      // setTimeout(() => {
+      navigate("/");
+      // }, 1800);
     }
   }, [auth.user, navigate]);
 

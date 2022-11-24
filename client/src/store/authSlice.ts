@@ -1,8 +1,4 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import {
-  addUserToLocalStorage,
-  removeUserFromLocalStorage,
-} from "./../utils/localStorageHelper";
 
 import { RootState } from "./store";
 import Swal from "sweetalert2";
@@ -20,8 +16,9 @@ type User = {
 interface AuthState {
   isLoading: boolean;
   user: User | null;
-  token: string | null;
+  // token: string | null;
   email: string | null;
+  userLoading: boolean;
 }
 type RegisterUserParams = {
   email: string;
@@ -33,14 +30,22 @@ type LoginUserParams = {
   password: string;
 };
 
-const user = localStorage.getItem("user");
-const token = localStorage.getItem("token");
+// const user = localStorage.getItem("user");
+// const token = localStorage.getItem("token");
 // Define the initial state using that type
+// export const initialState: AuthState = {
+//   user: user ? JSON.parse(user) : null,
+//   token: token ? token : null,
+//   email: user ? JSON.parse(user).email : null,
+//   isLoading: false,
+// };
+
 export const initialState: AuthState = {
-  user: user ? JSON.parse(user) : null,
-  token: token ? token : null,
-  email: user ? JSON.parse(user).email : null,
+  user: null,
+  // token:null,
+  email: null,
   isLoading: false,
+  userLoading: true,
 };
 
 export const registerUser = createAsyncThunk(
@@ -86,6 +91,31 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const getCurrentUser = createAsyncThunk(
+  "auth/getCurrentUser",
+  async (_: undefined, { dispatch }) => {
+    try {
+      const response = await apiClient.get(authApi.GetCurrentUserUrl);
+      return response.data;
+    } catch (error: any) {
+      if (error.response.status === 401) return;
+      dispatch(logoutUser());
+    }
+  }
+);
+
+export const logoutUser = createAsyncThunk(
+  "auth/logoutUser",
+  async (_: undefined, { dispatch }) => {
+    try {
+      const response = await apiClient.get(authApi.LogoutUserUrl);
+      return response.data;
+    } finally {
+      dispatch(logoutFulfilled());
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   // `createSlice` will infer the state type from the `initialState` argument
@@ -102,13 +132,10 @@ export const authSlice = createSlice({
         token: string;
       }>
     ) => {
-      const { user, token } = action.payload;
+      const { user } = action.payload;
       state.user = user;
       state.email = user.email;
-      state.token = token;
 
-      // add user and token to local storage
-      addUserToLocalStorage(user, token);
       // alert success
       Swal.fire({
         heightAuto: false,
@@ -126,13 +153,10 @@ export const authSlice = createSlice({
         token: string;
       }>
     ) => {
-      const { user, token } = action.payload;
+      const { user } = action.payload;
       state.user = user;
       state.email = user.email;
-      state.token = token;
 
-      // add user and token to local storage
-      addUserToLocalStorage(user, token);
       // alert success
       Swal.fire({
         heightAuto: false,
@@ -143,11 +167,10 @@ export const authSlice = createSlice({
       });
     },
 
-    logoutUser: (state) => {
+    logoutFulfilled: (state) => {
+      // state = initialState;
       state.user = null;
-      state.email = null;
-      state.token = null;
-      removeUserFromLocalStorage();
+      state.userLoading = false;
     },
   },
   extraReducers: (builder) => {
@@ -163,11 +186,23 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
 
+    builder.addCase(getCurrentUser.pending, (state) => {
+      state.userLoading = true;
+    });
+
+    builder.addCase(getCurrentUser.fulfilled, (state, action) => {
+      state.userLoading = false;
+      state.user = action.payload.user;
+    });
+
+    builder.addCase(getCurrentUser.rejected, (state) => {
+      state.userLoading = false;
+    });
+
     builder.addCase(updateUser.fulfilled, (state, action) => {
-      const { user, token } = action.payload;
+      const { user } = action.payload;
       state.user = user;
       state.email = user.email;
-      state.token = token;
     });
   },
 });
@@ -176,7 +211,7 @@ export const {
   registerUserFulfilled,
   setLoading,
   loginUserFulfilled,
-  logoutUser,
+  logoutFulfilled,
 } = authSlice.actions;
 
 export const selectAuth = (state: RootState) => state.auth;

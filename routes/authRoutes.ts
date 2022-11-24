@@ -1,4 +1,10 @@
-import { login, register, updateUser } from "../controllers/authController.js";
+import {
+  getCurrentUser,
+  login,
+  logout,
+  register,
+  updateUser,
+} from "../controllers/authController.js";
 
 import authenticateUser from "../middleware/auth.js";
 import express from "express";
@@ -16,5 +22,7 @@ const authRouter = express.Router();
 authRouter.route("/register").post(apiLimiter, register);
 authRouter.route("/login").post(apiLimiter, login);
 authRouter.route("/updateUser").patch(authenticateUser, updateUser);
+authRouter.route("/getCurrentUser").get(authenticateUser, getCurrentUser);
+authRouter.get("/logout", logout);
 
 export default authRouter;

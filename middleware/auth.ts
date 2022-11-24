@@ -24,7 +24,8 @@ const authenticateUser = (
     throw new UnauthenticatedError("Authentication failed");
   }
 
-  const tokenString = token.split(" ")[1];
+  // const tokenString = token.split(" ")[1];
+  const tokenString = token;
 
   try {
     const payload: any = jwt.verify(

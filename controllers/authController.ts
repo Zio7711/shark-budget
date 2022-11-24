@@ -83,4 +83,17 @@ const updateUser = async (req: UserRequest, res: Response) => {
   }
 };
 
-export { register, login, updateUser };
+const getCurrentUser = async (req: UserRequest, res: Response) => {
+  const user = await User.findById({ _id: req.user?.userId });
+  res.status(StatusCodes.OK).json({ user });
+};
+
+const logout = async (req: Request, res: Response) => {
+  res.cookie("token", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now() + 1000),
+  });
+  res.status(StatusCodes.OK).json({ message: "Logged out successfully" });
+};
+
+export { register, login, updateUser, getCurrentUser, logout };
