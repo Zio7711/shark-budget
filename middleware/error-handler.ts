@@ -24,7 +24,7 @@ const ErrorHandlerMiddleware = (
     message = `${Object.keys(err.keyValue)} already exists`;
   }
 
-  console.log(chalk.red(message));
+  // console.log(chalk.red(message));
   res.status(status).send({
     status,
     message,

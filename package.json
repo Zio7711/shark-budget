@@ -4,10 +4,10 @@
   "description": "",
   "main": "server.js",
   "type": "module",
-  "homepage": "/landing",
+  "homepage": "/",
   "scripts": {
-    "build-client":"cd client && npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-client": "cd client && npm run build",
+    "test": "concurrently \"npm run compile\" \"npm run server\"",
     "start": "node dist/server.js",
     "server": "npx nodemon dist/server.js --ignore client",
     "client": "npm start --prefix client",
@@ -37,10 +37,14 @@
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.2",
     "cors": "^2.8.5",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^6.7.0",
+    "helmet": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mongoose": "^6.7.2",
     "morgan": "^1.10.0",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "xss-clean": "^0.1.1"
   }
 }
