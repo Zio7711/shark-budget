@@ -13,7 +13,10 @@ const ExpenseItem = ({ expense, handleToggle }: Props) => {
     <>
       <div
         className="expense-item-container"
-        onClick={() => handleToggle(expense)}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleToggle(expense);
+        }}
       >
         <div>
           <CategoryIconLookUp category={expense.category} />

@@ -14,6 +14,7 @@ import AppBackDrop from "../../AppBackDrop";
 import ExpenseCategoryListItem from "../../ExpenseCategoryListItem";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { round } from "lodash";
 import useAppDispatch from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useState } from "react";
@@ -28,7 +29,7 @@ interface Props {
   handleCloseEditField: () => void;
 }
 const EditExpense = ({ expense, handleCloseEditField }: Props) => {
-  const [value, setValue] = useState<Dayjs | null>(dayjs(new Date()));
+  const [value, setValue] = useState<Dayjs | null>(dayjs(expense?.date));
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector(selectExpense);
 
@@ -54,8 +55,8 @@ const EditExpense = ({ expense, handleCloseEditField }: Props) => {
       };
 
       await dispatch(editExpense(editExpenseObject));
-
       handleCloseEditField();
+
       actions.resetForm();
     }
   };
@@ -67,6 +68,14 @@ const EditExpense = ({ expense, handleCloseEditField }: Props) => {
     validationSchema,
     onSubmit: submitHandler,
   });
+
+  const handleNumberFieldBlur = () => {
+    formik.setFieldValue(
+      "amount",
+      round(Number(formik.values.amount), 2),
+      true
+    );
+  };
   return (
     <>
       <form onSubmit={formik.handleSubmit} className="add-expense-form">
@@ -116,6 +125,7 @@ const EditExpense = ({ expense, handleCloseEditField }: Props) => {
               helperText={formik.touched.amount && formik.errors.amount}
               margin="dense"
               autoFocus={true}
+              onBlur={handleNumberFieldBlur}
             />
             <TextField
               type="text"
@@ -143,6 +153,7 @@ const EditExpense = ({ expense, handleCloseEditField }: Props) => {
           type="submit"
           //   disabled={auth.isLoading}
           sx={{ width: "5em", marginBottom: "1em" }}
+          onClick={(e) => e.stopPropagation()}
         >
           Edit
         </Button>

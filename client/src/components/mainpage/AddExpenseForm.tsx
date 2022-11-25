@@ -11,6 +11,7 @@ import AppBackDrop from "../AppBackDrop";
 import ExpenseCategoryListItem from "../ExpenseCategoryListItem";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { round } from "lodash";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 
@@ -83,6 +84,14 @@ const AddExpenseForm = ({
     onSubmit: submitHandler,
   });
 
+  const handleNumberFieldBlur = () => {
+    formik.setFieldValue(
+      "amount",
+      round(Number(formik.values.amount), 2),
+      true
+    );
+  };
+
   return (
     <>
       <form onSubmit={formik.handleSubmit} className="add-expense-form">
@@ -134,6 +143,7 @@ const AddExpenseForm = ({
               helperText={formik.touched.amount && formik.errors.amount}
               margin="dense"
               autoFocus={true}
+              onBlur={handleNumberFieldBlur}
               ref={focusAmountFieldRef}
             />
             <TextField

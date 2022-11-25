@@ -4,6 +4,7 @@ import { RootState } from "./store";
 import apiClient from "../api/client";
 import expenseApi from "../api/expenseApi";
 import { logoutUser } from "./authSlice";
+import { round } from "lodash";
 
 // Define a type for the slice state
 export type Expense = {
@@ -140,8 +141,8 @@ export const expenseSlice = createSlice({
         return acc;
       }, 0);
 
-      state.totalExpense = sumExpense;
-      state.totalIncome = sumIncome;
+      state.totalExpense = round(sumExpense, 2);
+      state.totalIncome = round(sumIncome, 2);
     },
   },
 

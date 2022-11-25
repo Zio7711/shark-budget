@@ -27,7 +27,12 @@ const register = async (req: Request, res: Response) => {
   attachCookies({ res, token });
 
   res.status(StatusCodes.OK).json({
-    user: { email: user.email, name: user.name, createdAt: user.createdAt },
+    user: {
+      email: user.email,
+      name: user.name,
+      createdAt: user.createdAt,
+      budget: user.budget,
+    },
   });
 };
 
@@ -53,7 +58,12 @@ const login = async (req: Request, res: Response) => {
   attachCookies({ res, token });
 
   res.status(StatusCodes.OK).json({
-    user: { email: user.email, name: user.name, createdAt: user.createdAt },
+    user: {
+      email: user.email,
+      name: user.name,
+      createdAt: user.createdAt,
+      budget: user.budget,
+    },
   });
 };
 

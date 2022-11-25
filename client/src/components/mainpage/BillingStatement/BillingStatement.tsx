@@ -21,7 +21,6 @@ interface Props {
 
 const BillingStatement = ({ bottomNavOffsetHeight }: Props) => {
   const headerRef = useRef<HTMLDivElement | null>(null);
-  // const [budget, setBudget] = useState<number | null>(0);
 
   const [headerOffsetHeight, setHeaderOffsetHeight] = useState<
     number | undefined
@@ -41,7 +40,7 @@ const BillingStatement = ({ bottomNavOffsetHeight }: Props) => {
         title: "Please set your monthly budget!",
         input: "number",
         confirmButtonText: "OK",
-        allowOutsideClick: false,
+        allowOutsideClick: true,
         preConfirm: async (budget) => {
           const result = await budgetSchema
             .validate({ budget })

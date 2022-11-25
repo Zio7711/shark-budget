@@ -11,7 +11,7 @@ import {
   deleteExpense,
   selectExpense,
 } from "../../../store/expenseSlice";
-import { forwardRef, useCallback, useState } from "react";
+import { forwardRef, useCallback, useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -21,6 +21,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import color from "../../../utils/color";
 import dayjs from "dayjs";
 import groupExpenseByDate from "../../../utils/groupExpenseByDate";
+import { round } from "lodash";
 import useAppDispatch from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useMemo } from "react";
@@ -53,7 +54,7 @@ const ExpenseDetailsBody = ({
 
   const handleToggle = (expense: Expense) => {
     setSelectedExpense(expense);
-    setOpenEditField(!openEditField);
+    setOpenEditField(true);
   };
 
   const handleDeleteExpense = () => {
@@ -97,7 +98,8 @@ const ExpenseDetailsBody = ({
           <p className="expense-details-body-header">
             <span>{formattedDate}</span>
             <span>
-              {sumIncome !== 0 && `in:${sumIncome}`} out:{sumExpense}
+              {sumIncome !== 0 && `in:${round(sumIncome, 2)}`} out:
+              {round(sumExpense, 2)}
             </span>
           </p>
 
@@ -156,12 +158,10 @@ const ExpenseDetailsBody = ({
           </Toolbar>
         </AppBar>
 
-        {selectedExpense && (
-          <EditExpense
-            expense={selectedExpense}
-            handleCloseEditField={handleCloseEditField}
-          />
-        )}
+        <EditExpense
+          expense={selectedExpense}
+          handleCloseEditField={handleCloseEditField}
+        />
       </Dialog>
     </>
   );
