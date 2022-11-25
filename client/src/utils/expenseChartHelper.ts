@@ -1,4 +1,5 @@
 import { Expense } from "../store/expenseSlice";
+import { round } from "lodash";
 export type PieChartDataObj = {
   name: string;
   value: number;
@@ -53,8 +54,6 @@ export const expenseAllocation = (expenses: Expense[]) => {
       "education",
     ];
 
-    const wants = ["insurance"];
-
     switch (true) {
       case needs.includes(category):
         expenseAllocationObj.needs += expensesByCategory[category];
@@ -65,6 +64,9 @@ export const expenseAllocation = (expenses: Expense[]) => {
         break;
     }
   }
+
+  expenseAllocationObj.needs = round(expenseAllocationObj.needs, 2);
+  expenseAllocationObj.wants = round(expenseAllocationObj.wants, 2);
 
   return expenseAllocationObj;
 };

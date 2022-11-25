@@ -73,7 +73,7 @@ const MainPage = () => {
       <div className="bottom-nav-container" ref={bottomRef}>
         <BottomNavigation
           showLabels
-          sx={{ width: "45vw" }}
+          sx={{ width: "40vw" }}
           value={value}
           onChange={handleChangeTab}
         >
@@ -93,7 +93,7 @@ const MainPage = () => {
 
         <BottomNavigation
           showLabels
-          sx={{ width: "45vw" }}
+          sx={{ width: "40vw" }}
           value={value}
           onChange={handleChangeTab}
         >

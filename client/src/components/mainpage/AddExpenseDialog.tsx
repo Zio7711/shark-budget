@@ -71,13 +71,25 @@ const AddExpenseDialog = () => {
 
   return (
     <>
-      <Button className="add-expense" onClick={handleClickOpen}>
+      <IconButton
+        className="add-expense"
+        onClick={handleClickOpen}
+        sx={{
+          backgroundColor: color.main,
+          position: "absolute",
+          bottom: "0.3em",
+          left: "50%",
+          transform: "translateX(-50%)",
+          border: "10px solid #fff",
+        }}
+      >
         <AddCircleOutlineOutlinedIcon
           sx={{
-            fontSize: "2.5em",
+            fontSize: "1.6em",
+            // position: "absolute",
           }}
         />
-      </Button>
+      </IconButton>
       <Dialog
         fullScreen
         open={openDialog}
