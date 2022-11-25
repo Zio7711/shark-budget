@@ -7,6 +7,8 @@
   "homepage": "/",
   "scripts": {
     "build-client": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "setup-production": "npm run install-client && npm run build-client && npm install && tsc",
     "test": "concurrently \"npm run compile\" \"npm run server\"",
     "start": "node dist/server.js",
     "server": "npx nodemon dist/server.js --ignore client",
