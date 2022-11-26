@@ -57,6 +57,10 @@ export const registerUser = createAsyncThunk(
       dispatch(registerUserFulfilled(response.data));
       return response.data;
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Registration failed",
+      });
     } finally {
       dispatch(setLoading(false));
     }
@@ -71,6 +75,10 @@ export const loginUser = createAsyncThunk(
       dispatch(loginUserFulfilled(response.data));
       return response.data;
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Login failed",
+      });
     } finally {
       dispatch(setLoading(false));
     }
@@ -142,7 +150,7 @@ export const authSlice = createSlice({
         icon: "success",
         title: "Registration Successful",
         showConfirmButton: false,
-        timer: 1500,
+        timer: 1000,
       });
     },
 
@@ -163,7 +171,7 @@ export const authSlice = createSlice({
         icon: "success",
         title: "Login Successful",
         showConfirmButton: false,
-        timer: 1500,
+        timer: 1000,
       });
     },
 

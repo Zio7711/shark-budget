@@ -3,7 +3,7 @@ import axios from "axios";
 
 const apiClient = axios.create({
   // baseURL: "http://localhost:4000/api/v1",
-  baseURL: "https://shark-budget.onrender.com/api/v1",
+  baseURL: "/api/v1",
   // timeout: 1000,
 });
 
@@ -37,13 +37,18 @@ apiClient.interceptors.response.use(
   (error) => {
     console.log("err.message", error.message);
 
+    // // if status is 401, do not show alert
+    if (error.response.status === 401) {
+      return Promise.reject(error);
+    }
+
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     Swal.fire({
       heightAuto: false,
       icon: "error",
-      title: `Status: ${error.response.data.status}`,
-      text: error.response.data.message,
+      title: error.response.data.message,
+      // text: error.response.data.message,
     });
     return Promise.reject(error);
   }
